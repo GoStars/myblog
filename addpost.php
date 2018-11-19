@@ -21,7 +21,8 @@
         }
 
         if (mysqli_query($conn, $query)) {
-            header('Location: addpost.php?success=addpost');
+            header('Location: index.php?success=addpost');
+            exit();
         } else {
             echo 'ERROR: '.mysqli_error($conn);
         }
@@ -36,8 +37,6 @@
                 if ($_GET['error'] == 'emptypostfield') {
                     echo '<p class="text-warning">Fill in all fields!</p>';
                 }
-            } else if (isset($_GET['success']) == 'addpost') {
-                echo '<p class="text-success">Post added successfully!</p>';
             }
 
             $title = (isset($_GET['title'])) ? $_GET['title'] : '';

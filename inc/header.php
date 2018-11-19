@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
+        <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="index.php">My Blog</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,22 +49,32 @@
             </div>
         </nav>
         <br>
-        <?php 
-            if (isset($_GET['error'])) {
-                if ($_GET['error'] == 'emptyfields') {
-                    echo '<p class="text-warning">Fill in all fields!</p>';
-                } else if ($_GET['error'] == 'wrongpassword') {
-                    echo '<p class="text-warning">Wrong password!</p>';
-                } else if ($_GET['error'] == 'nouser') {
-                    echo '<p class="text-warning">User not found!</p>';
-                } else if ($_GET['error'] == 'accessdenied') {
-                    echo '<p class="text-warning">Access denied!</p>';
+        <!-- Errors -->
+        <div class="container">
+            <?php 
+                if (isset($_GET['error'])) {
+                    if ($_GET['error'] == 'emptyfields') {
+                        echo '<p class="text-warning">Fill in all fields!</p>';
+                    } else if ($_GET['error'] == 'wrongpassword') {
+                        echo '<p class="text-warning">Wrong password!</p>';
+                    } else if ($_GET['error'] == 'nouser') {
+                        echo '<p class="text-warning">User not found!</p>';
+                    } else if ($_GET['error'] == 'accessdenied') {
+                        echo '<p class="text-warning">Access denied!</p>';
+                    } else if ($_GET['error'] == 'emptyeditpostfield') {
+                        echo '<p class="text-warning">Fill in all fields!</p>';
+                    }
+                } else if (isset($_GET['success'])) {
+                    if ($_GET['success'] == 'login') {
+                        echo '<p class="text-success">Log In successful!</p>';
+                    } else if ($_GET['success'] == 'logout') {
+                        echo '<p class="text-info">Log Out successful!</p>';
+                    } else if ($_GET['success'] == 'addpost') {
+                        echo '<p class="text-success">Post added successfully!</p>';
+                    } else if ($_GET['success'] == 'editpost') {
+                        echo '<p class="text-success">Post edited successfully!</p>';
+                    }
                 }
-            } else if (isset($_GET['success'])) {
-                if ($_GET['success'] == 'login') {
-                    echo '<p class="text-success">Log In successful!</p>';
-                } else if ($_GET['success'] == 'logout') {
-                    echo '<p class="text-info">Log Out successful!</p>';
-                }
-            }
-        ?>
+            ?>
+        </div>
+        
