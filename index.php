@@ -1,6 +1,6 @@
 <?php
-    require 'conf/config.php';
-    require 'conf/db.php';
+    require_once 'conf/config.php';
+    require_once 'conf/db.php';
 
     // Create Query
     $query = 'SELECT * FROM posts ORDER BY created_at DESC';
@@ -19,7 +19,7 @@
     mysqli_close($conn);
 ?>
 
-<?php include 'inc/header.php'; ?>
+<?php require 'inc/header.php'; ?>
     <div class="container">
         <h1>Posts</h1>
         <!-- Display all posts -->
@@ -30,9 +30,9 @@
                     Created on <?php echo $post['created_at']; ?> by
                     <?php echo $post['author']; ?>
                 </small>
-                <p><?php echo $post['body']; ?></p>
+                <p><?php echo $post['description']; ?></p>
                 <a class="btn btn-default" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
             </div>
         <?php endforeach; ?>
     </div>
-<?php include 'inc/footer.php'; ?>
+<?php require 'inc/footer.php'; ?>
