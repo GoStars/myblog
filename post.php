@@ -1,42 +1,31 @@
 <?php
-    require 'conf/config.php';
-    require 'conf/db.php';
-
-    // Check for delete
-    if (isset($_POST['delete'])) {
-        // Get form data
-        $delete_id = mysqli_real_escape_string($conn, $_POST['delete_id']);
-
-        $query = "DELETE FROM posts WHERE id = {$delete_id}";
-
-        if (mysqli_query($conn, $query)) {
-            header('Location: '.ROOT_URL.'');
-        } else {
-            echo 'ERROR: '.mysqli_error($conn);
-        }
-    }
+    require_once 'conf/config.php';
+    require_once 'conf/db.php';
 
     // Get ID
-    $id = mysqli_real_escape_string($conn, $_GET['id']);
+    $id = $_GET['id'];
 
     // Create Query
-    $query = "SELECT * FROM posts WHERE id = $id";
+    $query = "SELECT id, title, author, body, created_at FROM posts WHERE id = ?";
+    $stmt = mysqli_stmt_init($conn);
 
-    // Get Result
-    $result = mysqli_query($conn, $query);
+    if (!mysqli_stmt_prepare($stmt, $query)) {
+        header('Location: ../index.php?error=sqlerror');
+        exit();
+    } else {
+        mysqli_stmt_bind_param($stmt, 'i', $id);
+        mysqli_stmt_bind_result($stmt, $id, $title, $author, $body, $created_at);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $post = mysqli_fetch_array($result);
+    }
 
-    // Fetch Data
-    $post = mysqli_fetch_assoc($result);
-    // var_dump($posts);
-
-    // Free Result
-    mysqli_free_result($result);
-
-    // Close Connection
+    mysqli_stmt_close($stmt);
+    // Close connection (save resources)
     mysqli_close($conn);
 ?>
 
-<?php include 'inc/header.php'; ?>
+<?php require 'inc/header.php'; ?>
     <div class="container">
         <a class="btn btn-default" href="<?php echo ROOT_URL; ?>">Back</a>
         <h1><?php echo $post['title']; ?></h1>
@@ -48,11 +37,11 @@
         <hr>
         <!-- Check if user is author of a post -->
         <?php if (isset($_SESSION['id']) && $_SESSION['name'] == $post['author']) : ?>
-            <form class="float-right" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <form class="float-right" method="POST" action="php/removepost.php">
                 <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
-                <input class="btn btn-danger" type="submit" name="delete" value="Delete">
+                <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">
             </form>
             <a class="btn btn-default" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $_GET['id']; ?>">Edit</a>
         <?php endif; ?>
     </div>
-<?php include 'inc/footer.php'; ?>
+<?php require 'inc/footer.php'; ?>
