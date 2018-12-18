@@ -1,8 +1,14 @@
-<?php 
-    session_start();
-    session_unset();
-    session_destroy();
+<?php
+    if (isset($_POST['logout'])) {
+        session_start();
+        session_unset();
+        session_destroy();
 
-    header('Location: ../index.php?success=logout');
-    exit();
+        header('Location: ../index.php?success=logout');
+        exit();
+    } else {
+        header('Location: ../index.php');
+        exit();
+    }
+    
     

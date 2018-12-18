@@ -1,14 +1,15 @@
 <?php
-    require '../conf/config.php';
-    require '../conf/db.php';
+    require_once '../conf/config.php';
+    require_once '../conf/db.php';
+    require_once 'test_input.php';
 
     // Check for submit
     if (isset($_POST['submit'])) {
         // Get form data
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
-        $passwordRepeat = mysqli_real_escape_string($conn, $_POST['password-repeat']);
+        $name = test_input($_POST['name']);
+        $email = test_input($_POST['email']);
+        $password = test_input($_POST['password']);
+        $passwordRepeat = test_input($_POST['password-repeat']);
 
         // Check for empty fields
         if (empty($name) || empty($email) || empty($password) || empty($passwordRepeat)) {

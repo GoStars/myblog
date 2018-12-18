@@ -61,9 +61,9 @@
                         echo '<p class="text-warning">User not found!</p>';
                     } else if ($_GET['error'] == 'accessdenied') {
                         echo '<p class="text-warning">Access denied!</p>';
-                    } else if ($_GET['error'] == 'emptyeditpostfield') {
-                        echo '<p class="text-warning">Fill in all fields!</p>';
-                    }
+                    } //else if ($_GET['error'] == 'emptyeditpostfield') {
+                        // echo '<p class="text-warning">Fill in all fields!</p>';
+                    //}
                 } else if (isset($_GET['success'])) {
                     if ($_GET['success'] == 'login') {
                         echo '<p class="text-success">Log In successful!</p>';
@@ -73,6 +73,8 @@
                         echo '<p class="text-success">Post added successfully!</p>';
                     } else if ($_GET['success'] == 'editpost') {
                         echo '<p class="text-success">Post edited successfully!</p>';
+                    } else if ($_GET['success'] == 'deletepost') {
+                        echo '<p class="text-info">Post deleted successfully!</p>';
                     }
                 }
             ?>

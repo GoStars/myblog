@@ -1,6 +1,6 @@
 <?php
-    require '../conf/config.php';
-    require '../conf/db.php';
+    require_once '../conf/config.php';
+    require_once '../conf/db.php';
 
     // Check for submit
     if (isset($_POST['login'])) {
