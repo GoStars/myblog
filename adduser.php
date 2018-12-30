@@ -1,4 +1,4 @@
-<?php include 'inc/header.php'; ?>
+<?php require 'inc/header.php'; ?>
     <div class="container">
         <h1>Registration</h1>
         <?php 
@@ -43,4 +43,4 @@
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
         </form>
     </div>
-<?php include 'inc/footer.php'; ?>
+<?php require 'inc/footer.php'; ?>
