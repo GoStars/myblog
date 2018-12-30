@@ -11,17 +11,6 @@
         $description = test_input($_POST['description']);
         $body = test_input($_POST['body']);
 
-        // Create Query
-        $query = "SELECT id FROM users WHERE name = '$author'";
-
-        // Get Result
-        $result = mysqli_query($conn, $query);
-
-        // Fetch Data
-        $post = mysqli_fetch_assoc($result);
-
-        $author_id = $post['id'];
-
         // Check for empty fields
         if (empty($title) || empty($description) || empty($body)) {
             // Save correct data into fields
@@ -29,14 +18,14 @@
             // Stop script
             exit();
         } else {
-            $query = "INSERT INTO posts(author_id, title, author, description, body) VALUES(?, ?, ?, ?, ?)";
+            $query = "INSERT INTO posts(title, author, description, body) VALUES(?, ?, ?, ?)";
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
                 header('Location: ../index.php?error=sqlerror');
                 exit();
             } else {
-                mysqli_stmt_bind_param($stmt, 'issss', $author_id, $title, $author, $description, $body);
+                mysqli_stmt_bind_param($stmt, 'ssss', $title, $author, $description, $body);
                 mysqli_stmt_execute($stmt);
                 header('Location: ../index.php?success=addpost');
                 exit();
