@@ -3,7 +3,7 @@
     require_once 'conf/db.php';
 
     // Create Query
-    $query = 'SELECT * FROM posts ORDER BY created_at DESC';
+    $query = 'SELECT * FROM posts ORDER BY updated_at DESC';
 
     // Get Result
     $result = mysqli_query($conn, $query);
@@ -27,8 +27,13 @@
             <div class="card card-body bg-light">
                 <h3><?php echo $post['title']; ?></h3>
                 <small>
-                    Created on <?php echo $post['created_at']; ?> by
-                    <?php echo $post['author']; ?>
+                    <?php 
+                        if ($post['created_at'] >= $post['updated_at']) {
+                            echo 'Created at '.$post['created_at'].' by '.$post['author'];
+                        } else {
+                            echo 'Updated at '.$post['updated_at'].' by '.$post['author'];
+                        }
+                    ?>
                 </small>
                 <p><?php echo $post['description']; ?></p>
                 <a class="btn btn-default" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
