@@ -16,7 +16,7 @@
         } else {
             mysqli_stmt_bind_param($stmt, 'i', $delete_id);
             mysqli_stmt_execute($stmt);
-            header('Location: ../index.php?success=deletepost');
+            header('Location: ../dashboard.php?success=deletepost');
             exit();
         }
 

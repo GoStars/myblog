@@ -29,7 +29,7 @@
             } else {
                 mysqli_stmt_bind_param($stmt, 'sssi', $title, $description, $body, $update_id);
                 mysqli_stmt_execute($stmt);
-                header('Location: ../index.php?success=editpost');
+                header('Location: ../dashboard.php?success=editpost');
                 exit();
             }        
         }

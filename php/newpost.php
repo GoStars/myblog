@@ -27,7 +27,7 @@
             } else {
                 mysqli_stmt_bind_param($stmt, 'ssss', $title, $author, $description, $body);
                 mysqli_stmt_execute($stmt);
-                header('Location: ../index.php?success=addpost');
+                header('Location: ../dashboard.php?success=addpost');
                 exit();
             }
         }
