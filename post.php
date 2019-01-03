@@ -27,7 +27,13 @@
 
 <?php require 'inc/header.php'; ?>
     <div class="container">
-        <a class="btn btn-default" href="<?php echo ROOT_URL; ?>">Back</a>
+        <?php 
+            if (isset($_GET['dashboard'])) {
+                echo '<a class="btn btn-secondary" href="'.ROOT_URL.'dashboard.php">Back</a>';
+            } else {
+                echo '<a class="btn btn-secondary" href="'.ROOT_URL.'">Back</a>';
+            }
+        ?>
         <h1><?php echo $post['title']; ?></h1>
         <small>
             <?php 
@@ -47,7 +53,7 @@
                 <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
                 <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">
             </form>
-            <a class="btn btn-default" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $_GET['id']; ?>">Edit</a>
+            <a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $_GET['id']; ?>">Edit</a>
         <?php endif; ?>
     </div>
 <?php require 'inc/footer.php'; ?>
