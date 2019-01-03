@@ -10,7 +10,6 @@
 
     // Fetch Data
     $posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    // var_dump($posts);
 
     // Free Result
     mysqli_free_result($result);
@@ -28,6 +27,7 @@
                 <h3><?php echo $post['title']; ?></h3>
                 <small>
                     <?php 
+                        // Display created or updated post date
                         if ($post['created_at'] >= $post['updated_at']) {
                             echo 'Created at '.$post['created_at'].' by '.$post['author'];
                         } else {
@@ -36,7 +36,7 @@
                     ?>
                 </small>
                 <p><?php echo $post['description']; ?></p>
-                <a class="btn btn-default" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
+                <a class="btn" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
             </div>
         <?php endforeach; ?>
     </div>
