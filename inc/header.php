@@ -27,6 +27,12 @@
                         <li class="nav-item">
                         <a class="nav-link" href="addpost.php">Add Post</a>
                         </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="edituser.php">Profile Settings</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="dashboard.php">Dashboard</a>
+                        </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0" method="POST" action="./php/logout.php">
                         <p class="text-primary my-2 mr-sm-2">Hello, '.$_SESSION['name'].'!</p>
