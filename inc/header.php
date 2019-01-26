@@ -28,7 +28,7 @@
                         <a class="nav-link" href="addpost.php">Add Post</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="edituser.php">Profile Settings</a>
+                        <a class="nav-link" href="edituser.php?id='.$_SESSION['id'].'">Profile Settings</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">Dashboard</a>

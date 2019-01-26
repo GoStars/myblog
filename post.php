@@ -40,7 +40,8 @@
                 if ($post['created_at'] >= $post['updated_at']) {
                     echo 'Created at '.$post['created_at'].' by '.$post['author'];
                 } else {
-                    echo 'Updated at '.$post['updated_at'].' by '.$post['author'];
+                    echo 'Created at '.$post['created_at'].' by '.$post['author'];
+                    echo '<br>Updated at '.$post['updated_at'].' by '.$post['author'];
                 }
             ?>
         </small>
