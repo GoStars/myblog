@@ -44,18 +44,29 @@
                         <a class="nav-link" href="index.php">Home</a>
                         </li>
                         </ul>
-                        <form class="form-inline my-2 my-lg-0" method="POST" action="./php/login.php">
-                        <input class="form-control mr-sm-2" type="email" name="email" placeholder="Email">
-                        <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password">
-                        <input class="btn btn-secondary my-2 my-sm-0" type="submit" name="login" value="Log In">
+                        <form method="POST" action="./php/login.php">
+                        <div class="form-row">
+                        <div class="from-group col-md-4">
+                        <input class="form-control" type="email" name="email" placeholder="E-mail">
+                        </div>
+                        <div class="from-group col-md-4">
+                        <input class="form-control" type="password" name="password" placeholder="Password">
+                        <a class="nav-link" href="forgotpassword.php">Forgot your password?</a>
+                        </div>
+                        <div class="from-group col-md-2">
+                        <input class="btn btn-secondary" type="submit" name="login" value="Log In">
+                        </div>
+                        <div class="from-group col-md-2">
                         <a class="nav-link" href="adduser.php">Registration</a>
+                        </div> 
+                        </div> 
                         </form>';
                     }
                 ?>
             </div>
         </nav>
         <br>
-        <!-- Errors -->
+        <!-- Messages -->
         <div class="container">
             <?php 
                 if (isset($_GET['error'])) {
@@ -67,6 +78,8 @@
                         echo '<p class="text-warning">User not found!</p>';
                     } else if ($_GET['error'] == 'accessdenied') {
                         echo '<p class="text-warning">Access denied!</p>';
+                    } else if ($_GET['error'] == 'validation') {
+                        echo '<p class="text-warning">Could not validate your request!</p>';
                     }
                 } else if (isset($_GET['success'])) {
                     if ($_GET['success'] == 'login') {
@@ -79,6 +92,8 @@
                         echo '<p class="text-success">Post edited successfully!</p>';
                     } else if ($_GET['success'] == 'deletepost') {
                         echo '<p class="text-info">Post deleted successfully!</p>';
+                    } else if ($_GET['success'] == 'passwordupdated') {
+                        echo '<p class="text-success">Password updated successfully!</p>';
                     }
                 }
             ?>
