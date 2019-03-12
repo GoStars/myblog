@@ -33,7 +33,7 @@
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../edituser.php?error=sqlerror');
+                header('Location: ../errors/502.php?error=sqlerror');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 's', $email);
@@ -45,7 +45,7 @@
                 $stmt = mysqli_stmt_init($conn);
 
                 if (!mysqli_stmt_prepare($stmt, $query)) {
-                    header('Location: ../index.php?error=sqlerror');
+                    header('Location: ../errors/502.php?error=sqlerror');
                     exit();
                 } else {
                     mysqli_stmt_bind_param($stmt, "i", $update_id);
@@ -68,7 +68,7 @@
                         $stmt = mysqli_stmt_init($conn);
 
                         if (!mysqli_stmt_prepare($stmt, $query)) {
-                            header('Location: ../edituser.php?error=sqlerror');
+                            header('Location: ../errors/502.php?error=sqlerror');
                             exit();
                         } else {
                             mysqli_stmt_bind_param($stmt, 'si', $email, $update_id);

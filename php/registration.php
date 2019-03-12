@@ -36,7 +36,7 @@
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../adduser.php?error=sqlerror');
+                header('Location: ../errors/502.php?error=sqlerror');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 'ss', $name, $email);
@@ -53,7 +53,7 @@
                     $stmt = mysqli_stmt_init($conn);
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
-                        header('Location: ../adduser.php?error=sqlerror');
+                        header('Location: ../errors/502.php?error=sqlerror');
                         exit();
                     } else {
                         // Hash password
