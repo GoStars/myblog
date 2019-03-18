@@ -2,18 +2,18 @@
     <div class="container">
         <h1>Reset Password</h1>
         <?php
-            if (isset($_GET['error'])) {
-                if ($_GET['error'] == 'submit') {
+            if (isset($_SESSION['error'])) {
+                if ($_SESSION['error'] == 'submit') {
                     echo '<p class="text-warning">Re-submit your reset request!</p>';
-                } else if ($_GET['error'] == 'emptyemail') {
+                } else if ($_SESSION['error'] == 'emptyemail') {
                     echo '<p class="text-warning">E-mail is required!</p>';
-                } else if ($_GET['error'] == 'invalidemail') {
+                } else if ($_SESSION['error'] == 'invalidemail') {
                     echo '<p class="text-warning">Invalid e-mail!</p>';
-                } else if ($_GET['error'] == 'emailnotfound') {
+                } else if ($_SESSION['error'] == 'emailnotfound') {
                     echo '<p class="text-warning">E-mail not found!</p>';
                 }
-            } else if (isset($_GET['success'])) {
-                if ($_GET['success'] == 'reset') {
+            } else if (isset($_SESSION['success'])) {
+                if ($_SESSION['success'] == 'reset') {
                     echo '<p class="text-success">Check your e-mail!</p>';
                 }
             }

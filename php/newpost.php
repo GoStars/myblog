@@ -3,6 +3,8 @@
     require_once '../conf/db.php';
     require_once 'test_input.php';
 
+    session_start();
+
     // Check for submit
     if (isset($_POST['submit'])) {
         // Get form data
@@ -14,7 +16,8 @@
         // Check for empty fields
         if (empty($title) || empty($description) || empty($body)) {
             // Save correct data into fields
-            header('Location: ../addpost.php?error=emptypostfield&title='.$title.'&description='.$description.'&body='.$body);
+            $_SESSION['error'] = 'emptypostfield';
+            header('Location: ../addpost.php?title='.$title.'&description='.$description.'&body='.$body);
             // Stop script
             exit();
         } else {
@@ -22,12 +25,15 @@
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../errors/502.php?error=sqlerror');
+                $_SESSION['error'] = 'sqlerror';
+                header('Location: ../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 'ssss', $title, $author, $description, $body);
                 mysqli_stmt_execute($stmt);
-                header('Location: ../dashboard.php?success=addpost');
+
+                $_SESSION['success'] = 'addpost';
+                header('Location: ../dashboard.php');
                 exit();
             }
         }

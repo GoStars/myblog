@@ -2,22 +2,24 @@
     <div class="container">
         <h1>Registration</h1>
         <?php 
-            if (isset($_GET['error'])) {
-                if ($_GET['error'] == 'emptyfield') {
+            if (isset($_SESSION['error'])) {
+                if ($_SESSION['error'] == 'emptyfield') {
                     echo '<p class="text-warning">Fill in all fields!</p>';
-                } else if ($_GET['error'] == 'invalidnameandemail') {
+                } else if ($_SESSION['error'] == 'invalidnameandemail') {
                     echo '<p class="text-warning">Invalid name and e-mail!</p>';
-                } else if ($_GET['error'] == 'invalidname') {
+                } else if ($_SESSION['error'] == 'invalidname') {
                     echo '<p class="text-warning">Invalid name!</p>';
-                } else if ($_GET['error'] == 'invalidemail') {
+                } else if ($_SESSION['error'] == 'invalidemail') {
                     echo '<p class="text-warning">Invalid e-mail!</p>';
-                } else if ($_GET['error'] == 'passwordcheck') {
+                } else if ($_SESSION['error'] == 'passwordcheck') {
                     echo '<p class="text-warning">Your passwords did not match!</p>';
-                } else if ($_GET['error'] == 'nameoremailtaken') {
+                } else if ($_SESSION['error'] == 'nameoremailtaken') {
                     echo '<p class="text-warning">Name or e-mail already taken!</p>';
                 }
-            } else if (isset($_GET['registration']) == 'success') {
-                echo '<p class="text-success">Registration successful!</p>';
+            } else if (isset($_SESSION['success'])) {
+                if ($_SESSION['success'] == 'registration') {
+                    echo '<p class="text-success">Registration successful!</p>';
+                }
             }
 
             $name = (isset($_GET['name'])) ? $_GET['name'] : '';

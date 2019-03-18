@@ -4,7 +4,7 @@
 ?>
 
 <?php require 'inc/header.php'; ?>
-    <?php 
+    <?php
         // Get ID
         if (isset($_SESSION['update_id'])) {
             $id = $_SESSION['update_id'];
@@ -26,7 +26,6 @@
             $result = mysqli_stmt_get_result($stmt);
             $post = mysqli_fetch_array($result);
         }
-
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
@@ -36,27 +35,21 @@
             <div class="container">
                 <h1>Profile Settings</h1>
                 <?php 
-                    if (isset($_GET['error'])) {
-                        if ($_GET['error'] == 'emptyemail') {
+                    if (isset($_SESSION['error'])) {
+                        if ($_SESSION['error'] == 'emptyemail') {
                             echo '<p class="text-warning">E-mail is required!</p>';
-                        } else if ($_GET['error'] == 'invalidemail') {
+                        } else if ($_SESSION['error'] == 'invalidemail') {
                             echo '<p class="text-warning">Invalid e-mail!</p>';
-                        } else if ($_GET['error'] == 'emailtaken') {
+                        } else if ($_SESSION['error'] == 'emailtaken') {
                             echo '<p class="text-warning">E-mail already taken!</p>';
-                        } else if ($_GET['error'] == 'emptyconfirmpassword') {
+                        } else if ($_SESSION['error'] == 'emptyconfirmpassword') {
                             echo '<p class="text-warning">Password is required!</p>';
-                        } else if ($_GET['error'] == 'wrongconfirmpassword') {
-                            echo '<p class="text-warning">Wrong password!</p>';
-                        } else if ($_GET['error'] == 'emptypassword') {
-                            echo '<p class="text-warning">Fill in all fields!</p>';
-                        } else if ($_GET['error'] == 'passwordcheck') {
-                            echo '<p class="text-warning">Your passwords did not match!</p>';
+                        } else if ($_SESSION['error'] == 'wrongconfirmpassword') {
+                            echo '<p class="text-warning">Wrong confirm password!</p>';
                         }
-                    } else if (isset($_GET['success'])) {
-                        if ($_GET['success'] == 'emailupdate') {
+                    } else if (isset($_SESSION['success'])) {
+                        if ($_SESSION['success'] == 'emailupdate') {
                             echo '<p class="text-success">E-mail edited successfully!</p>';
-                        } else if ($_GET['success'] == 'passwordupdate') {
-                            echo '<p class="text-success">Password edited successfully!</p>';
                         }
                     }
                 ?>
@@ -82,6 +75,22 @@
 
                 <hr>
 
+                <?php 
+                    if (isset($_SESSION['error'])) {
+                        if ($_SESSION['error'] == 'emptypassword') {
+                            echo '<p class="text-warning">Fill in all fields!</p>';
+                        } else if ($_SESSION['error'] == 'passwordcheck') {
+                            echo '<p class="text-warning">Your passwords did not match!</p>';
+                        } else if ($_SESSION['error'] == 'wrongoldpassword') {
+                            echo '<p class="text-warning">Wrong old password!</p>';
+                        }
+                    } else if (isset($_SESSION['success'])) {
+                        if ($_SESSION['success']  == 'passwordupdate') {
+                            echo '<p class="text-success">Password edited successfully!</p>';
+                        } 
+                    }
+                ?>
+
                 <!-- Change password -->
                 <form method="POST" action="php/changepassword.php">
                     <div class="form-group">
@@ -100,8 +109,8 @@
                     <input class="btn btn-primary" type="submit" name="submit" value="Submit">
                 </form>     
             </div>
-        <?php else : header('Location: index.php?error=accessdenied'); exit(); ?>
+        <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
         <?php endif; ?>
-    <?php else : header('Location: index.php?error=accessdenied'); exit(); ?>
+    <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
 <?php require 'inc/footer.php'; ?>

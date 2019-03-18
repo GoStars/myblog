@@ -17,19 +17,21 @@
 
         // Check for empty fields
         if (empty($new_password) || empty($passwordRepeat) || empty($old_password)) {
-            // Save correct data into fields
-            header('Location: ../edituser.php?error=emptypassword');
+            $_SESSION['error'] = 'emptypassword';
+            header('Location: ../edituser.php');
             // Stop script
             exit();
         } else if ($new_password !== $passwordRepeat) { // Compare passwords
-            header('Location: ../edituser.php?error=passwordcheck');
+            $_SESSION['error'] = 'passwordcheck';
+            header('Location: ../edituser.php');
             exit();
         } else {
             $query = "SELECT password FROM users WHERE id = ?";
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../errors/502.php?error=sqlerror');
+                $_SESSION['error'] = 'sqlerror';
+                header('Location: ../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, "i", $update_id);
@@ -41,7 +43,8 @@
                 $passwordCheck = password_verify($old_password, $row['password']);
 
                 if ($passwordCheck == false) {
-                    header('Location: ../edituser.php?error=wrongconfirmpassword');
+                    $_SESSION['error'] = 'wrongoldpassword';
+                    header('Location: ../edituser.php');
                     exit();
                 } else {
                     // Update password
@@ -49,14 +52,17 @@
                     $stmt = mysqli_stmt_init($conn);
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
-                        header('Location: ../errors/502.php?error=sqlerror');
+                        $_SESSION['error'] = 'sqlerror';
+                        header('Location: ../errors/502.php');
                         exit();
                     } else {
                         // Hash password
                         $passwordHashed = password_hash($new_password, PASSWORD_DEFAULT);
                         mysqli_stmt_bind_param($stmt, 'si', $passwordHashed, $update_id);
                         mysqli_stmt_execute($stmt);
-                        header('Location: ../edituser.php?success=passwordupdate');
+
+                        $_SESSION['success'] = 'passwordupdate';
+                        header('Location: ../edituser.php');
                         exit();
                     }
                 }

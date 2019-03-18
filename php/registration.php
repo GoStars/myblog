@@ -3,6 +3,8 @@
     require_once '../conf/db.php';
     require_once 'test_input.php';
 
+    session_start();
+
     // Check for submit
     if (isset($_POST['submit'])) {
         // Get form data
@@ -13,21 +15,26 @@
 
         // Check for empty fields
         if (empty($name) || empty($email) || empty($password) || empty($passwordRepeat)) {
+            $_SESSION['error'] = 'emptyfield';
             // Save correct data into fields
-            header('Location: ../adduser.php?error=emptyfield&name='.$name.'&email='.$email);
+            header('Location: ../adduser.php?name='.$name.'&email='.$email);
             // Stop script
             exit();
         } else if (!preg_match('/^[a-zA-Z0-9]*$/', $name) && !filter_var($email, FILTER_VALIDATE_EMAIL)) { // Check name and email
-            header('Location: ../adduser.php?error=invalidnameandemail');
+            $_SESSION['error'] = 'invalidnameandemail';
+            header('Location: ../adduser.php');
             exit();
         } else if (!preg_match('/^[a-zA-Z0-9]*$/', $name)) { // Check name
-            header('Location: ../adduser.php?error=invalidname&email='.$email);
+            $_SESSION['error'] = 'invalidname';
+            header('Location: ../adduser.php?email='.$email);
             exit();
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Check email
-            header('Location: ../adduser.php?error=invalidemail&name='.$name);
+            $_SESSION['error'] = 'invalidemail';
+            header('Location: ../adduser.php?name='.$name);
             exit();
         } else if ($password !== $passwordRepeat) { // Compare passwords
-            header('Location: ../adduser.php?error=passwordcheck&name='.$name.'&email='.$email);
+            $_SESSION['error'] = 'passwordcheck';
+            header('Location: ../adduser.php?name='.$name.'&email='.$email);
             exit();
         } else {
             // Check if user already exist
@@ -36,7 +43,8 @@
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../errors/502.php?error=sqlerror');
+                $_SESSION['error'] = 'sqlerror';
+                header('Location: ../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 'ss', $name, $email);
@@ -45,7 +53,8 @@
                 $resultCheck = mysqli_stmt_num_rows($stmt);
 
                 if ($resultCheck > 0) {
-                    header('Location: ../adduser.php?error=nameoremailtaken');
+                    $_SESSION['error'] = 'nameoremailtaken';
+                    header('Location: ../adduser.php');
                     exit();
                 } else {
                     // Insert new user into DB
@@ -53,14 +62,17 @@
                     $stmt = mysqli_stmt_init($conn);
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
-                        header('Location: ../errors/502.php?error=sqlerror');
+                        $_SESSION['error'] = 'sqlerror';
+                        header('Location: ../errors/502.php');
                         exit();
                     } else {
                         // Hash password
                         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
                         mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $passwordHashed);
                         mysqli_stmt_execute($stmt);
-                        header('Location: ../adduser.php?registration=success');
+
+                        $_SESSION['success'] = 'registration';
+                        header('Location: ../adduser.php');
                         exit();
                     }
                 }

@@ -2,8 +2,8 @@
     <div class="container">
         <h1>Add Post</h1>
         <?php 
-            if (isset($_GET['error'])) {
-                if ($_GET['error'] == 'emptypostfield') {
+            if (isset($_SESSION['error'])) {
+                if ($_SESSION['error'] == 'emptypostfield') {
                     echo '<p class="text-warning">Fill in all fields!</p>';
                 }
             }

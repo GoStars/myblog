@@ -26,7 +26,6 @@
             $result = mysqli_stmt_get_result($stmt);
             $post = mysqli_fetch_array($result);
         }
-
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
@@ -37,8 +36,8 @@
             <div class="container">
                 <h1>Edit Post</h1>
                 <?php
-                    if (isset($_GET['error'])) {
-                        if ($_GET['error'] == 'emptyeditpostfield') {
+                    if (isset($_SESSION['error'])) {
+                        if ($_SESSION['error'] == 'emptyeditpostfield') {
                             echo '<p class="text-warning">Fill in all fields!</p>';
                         }
                     }
@@ -66,9 +65,9 @@
                     <input class="btn btn-primary" type="submit" name="submit" value="Submit">
                 </form>
             </div>
-        <?php else : header('Location: index.php?error=accessdenied'); exit(); ?>
+        <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
         <?php endif; ?>
-    <?php else : header('Location: index.php?error=accessdenied'); exit(); ?>
+    <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
 <?php require 'inc/footer.php'; ?>
 

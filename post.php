@@ -19,7 +19,6 @@
         $result = mysqli_stmt_get_result($stmt);
         $post = mysqli_fetch_array($result);
     }
-
     mysqli_stmt_close($stmt);
     // Close connection (save resources)
     mysqli_close($conn);

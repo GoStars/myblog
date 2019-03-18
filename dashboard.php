@@ -25,6 +25,17 @@
     <?php if (isset($_SESSION['id'])) : ?>
         <div class="container">
             <h1>Dashboard</h1>
+            <?php
+                if (isset($_SESSION['success'])) {
+                    if ($_SESSION['success'] == 'addpost') {
+                        echo '<p class="text-success">Post added successfully!</p>';
+                    } else if ($_SESSION['success'] == 'editpost') {
+                        echo '<p class="text-success">Post edited successfully!</p>';
+                    } else if ($_SESSION['success'] == 'deletepost') {
+                        echo '<p class="text-info">Post deleted successfully!</p>';
+                    } 
+                }
+            ?>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -65,6 +76,6 @@
                 </tbody>
             </table>
         </div>
-    <?php else : header('Location: index.php?error=accessdenied'); exit(); ?>
+    <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
 <?php require 'inc/footer.php'; ?>

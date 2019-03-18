@@ -2,20 +2,25 @@
     require_once '../conf/config.php';
     require_once '../conf/db.php';
 
+    // Create session
+    session_start();
+
     // Check for submit
     if (isset($_POST['login'])) {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
         if (empty($email) || empty($password)) {
-            header('Location: ../index.php?error=emptyfields');
+            $_SESSION['error'] = 'emptyfields';
+            header('Location: ../index.php');
             exit();
         } else {
             $query = "SELECT * FROM users WHERE email = ?";
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../errors/502.php?error=sqlerror');
+                $_SESSION['error'] = 'sqlerror';
+                header('Location: ../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, "s", $email);
@@ -28,23 +33,25 @@
                     $passwordCheck = password_verify($password, $row['password']);
 
                     if ($passwordCheck == false) {
-                        header('Location: ../index.php?error=wrongpassword');
+                        $_SESSION['error'] = 'wrongpassword';
+                        header('Location: ../index.php');
                         exit();
                     } else if ($passwordCheck == true) {
-                        // Create session
-                        session_start();
                         $_SESSION['id'] = $row['id'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
 
-                        header('Location: ../index.php?success=login');
+                        $_SESSION['success'] = 'login';
+                        header('Location: ../index.php');
                         exit();
                     } else {
-                        header('Location: ../index.php?error=wrongpassword');
+                        $_SESSION['error'] = 'wrongpassword';
+                        header('Location: ../index.php');
                         exit();
                     }
                 } else {
-                    header('Location: ../index.php?error=nouser');
+                    $_SESSION['error'] = 'nouser';
+                    header('Location: ../index.php');
                     exit();
                 }
             }

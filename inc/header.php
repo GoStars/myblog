@@ -69,30 +69,24 @@
         <!-- Messages -->
         <div class="container">
             <?php 
-                if (isset($_GET['error'])) {
-                    if ($_GET['error'] == 'emptyfields') {
+                if (isset($_SESSION['error'])) {
+                    if ($_SESSION['error'] == 'emptyfields') {
                         echo '<p class="text-warning">Fill in all fields!</p>';
-                    } else if ($_GET['error'] == 'wrongpassword') {
+                    } else if ($_SESSION['error'] == 'wrongpassword') {
                         echo '<p class="text-warning">Wrong password!</p>';
-                    } else if ($_GET['error'] == 'nouser') {
+                    } else if ($_SESSION['error'] == 'nouser') {
                         echo '<p class="text-warning">User not found!</p>';
-                    } else if ($_GET['error'] == 'accessdenied') {
+                    } else if ($_SESSION['error'] == 'accessdenied') {
                         echo '<p class="text-warning">Access denied!</p>';
-                    } else if ($_GET['error'] == 'validation') {
+                    } else if ($_SESSION['error'] == 'validation') {
                         echo '<p class="text-warning">Could not validate your request!</p>';
                     }
-                } else if (isset($_GET['success'])) {
-                    if ($_GET['success'] == 'login') {
+                } else if (isset($_SESSION['success'])) {
+                    if ($_SESSION['success'] == 'login') {
                         echo '<p class="text-success">Log In successful!</p>';
-                    } else if ($_GET['success'] == 'logout') {
+                    } else if ($_SESSION['success'] == 'logout') {
                         echo '<p class="text-info">Log Out successful!</p>';
-                    } else if ($_GET['success'] == 'addpost') {
-                        echo '<p class="text-success">Post added successfully!</p>';
-                    } else if ($_GET['success'] == 'editpost') {
-                        echo '<p class="text-success">Post edited successfully!</p>';
-                    } else if ($_GET['success'] == 'deletepost') {
-                        echo '<p class="text-info">Post deleted successfully!</p>';
-                    } else if ($_GET['success'] == 'passwordupdated') {
+                    } else if ($_SESSION['success'] == 'passwordupdated') {
                         echo '<p class="text-success">Password updated successfully!</p>';
                     }
                 }

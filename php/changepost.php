@@ -3,6 +3,8 @@
     require_once '../conf/db.php';
     require_once 'test_input.php';
 
+    session_start();
+
     // Check for submit
     if (isset($_POST['submit'])) {
         // Get form data
@@ -14,9 +16,10 @@
         // Check for empty fields
         if (empty($title) || empty($description) || empty($body)) {
             // Store post id in session
-            session_start();
             $_SESSION['update_id'] = $update_id;
-            header('Location: ../editpost.php?error=emptyeditpostfield');
+
+            $_SESSION['error'] = 'emptyeditpostfield';
+            header('Location: ../editpost.php');
             // Stop script
             exit();
         } else {
@@ -24,16 +27,18 @@
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../errors/502.php?error=sqlerror');
+                $_SESSION['error'] = 'sqlerror';
+                header('Location: ../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 'sssi', $title, $description, $body, $update_id);
                 mysqli_stmt_execute($stmt);
-                header('Location: ../dashboard.php?success=editpost');
+
+                $_SESSION['success'] = 'editpost';
+                header('Location: ../dashboard.php');
                 exit();
             }        
         }
-        
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn); 

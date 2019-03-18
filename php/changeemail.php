@@ -14,17 +14,19 @@
         session_start();
         $_SESSION['update_id'] = $update_id;
 
-        // Check for empty fields
+        // Check for empty input
         if (empty($email)) {
-            // Save correct data into fields
-            header('Location: ../edituser.php?error=emptyemail');
+            $_SESSION['error'] = 'emptyemail';
+            header('Location: ../edituser.php');
             // Stop script
             exit();
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Check email
-            header('Location: ../edituser.php?error=invalidemail');
+            $_SESSION['error'] = 'invalidemail';
+            header('Location: ../edituser.php');
             exit();
         } else if (empty($confirm_password)) {
-            header('Location: ../edituser.php?error=emptyconfirmpassword');
+            $_SESSION['error'] = 'emptyconfirmpassword';
+            header('Location: ../edituser.php');
             exit();
         } else {
             // Check if email already exist
@@ -33,7 +35,8 @@
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
-                header('Location: ../errors/502.php?error=sqlerror');
+                $_SESSION['error'] = 'sqlerror';
+                header('Location: ../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 's', $email);
@@ -45,7 +48,8 @@
                 $stmt = mysqli_stmt_init($conn);
 
                 if (!mysqli_stmt_prepare($stmt, $query)) {
-                    header('Location: ../errors/502.php?error=sqlerror');
+                    $_SESSION['error'] = 'sqlerror';
+                    header('Location: ../errors/502.php');
                     exit();
                 } else {
                     mysqli_stmt_bind_param($stmt, "i", $update_id);
@@ -57,10 +61,12 @@
                     $passwordCheck = password_verify($confirm_password, $row['password']);
 
                     if ($resultCheck > 0) {
-                        header('Location: ../edituser.php?error=emailtaken');
+                        $_SESSION['error'] = 'emailtaken';
+                        header('Location: ../edituser.php');
                         exit();
                     } else if ($passwordCheck == false) {
-                        header('Location: ../edituser.php?error=wrongconfirmpassword');
+                        $_SESSION['error'] = 'wrongconfirmpassword';
+                        header('Location: ../edituser.php');
                         exit();
                     } else {
                         // Update email
@@ -68,12 +74,15 @@
                         $stmt = mysqli_stmt_init($conn);
 
                         if (!mysqli_stmt_prepare($stmt, $query)) {
-                            header('Location: ../errors/502.php?error=sqlerror');
+                            $_SESSION['error'] = 'sqlerror';
+                            header('Location: ../errors/502.php');
                             exit();
                         } else {
                             mysqli_stmt_bind_param($stmt, 'si', $email, $update_id);
                             mysqli_stmt_execute($stmt);
-                            header('Location: ../edituser.php?success=emailupdate');
+
+                            $_SESSION['success'] = 'emailupdate';
+                            header('Location: ../edituser.php');
                             exit();
                         }
                     }

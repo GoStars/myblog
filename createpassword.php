@@ -5,18 +5,19 @@
             $selector = $_GET['selector'];
             $validator = $_GET['validator'];
 
-            if (isset($_GET['error'])) {
-                if ($_GET['error'] == 'pwdempty') {
+            if (isset($_SESSION['error'])) {
+                if ($_SESSION['error'] == 'pwdempty') {
                     echo '<p class="text-warning">Fill in all fields!</p>';
-                } else if ($_GET['error'] == 'pwdcheck') {
+                } else if ($_SESSION['error'] == 'pwdcheck') {
                     echo '<p class="text-warning">Your passwords did not match!</p>';
-                } else if ($_GET['error'] == 'fetch') {
+                } else if ($_SESSION['error'] == 'fetch') {
                     echo '<p class="text-warning">There was an error!</p>';
                 }
             }
 
             if (strlen($selector) !== 16 || strlen($validator) !== 64) {
-                header('Location: index.php?error=validation');
+                $_SESSION['error'] == 'validation';
+                header('Location: index.php');
             } else {
                 if (ctype_xdigit($selector) !== false && ctype_xdigit($validator) !== false) {
                     echo '<form method="POST" action="php/resetpassword.php">
@@ -33,7 +34,8 @@
                     <input class="btn btn-primary" type="submit" name="reset-password-submit" value="Submit">
                     </form>';
                 } else {
-                    header('Location: index.php?error=validation');
+                    $_SESSION['error'] == 'validation';
+                    header('Location: index.php');
                 }
             }
         ?>

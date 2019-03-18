@@ -1,3 +1,11 @@
+        <?php 
+            if (isset($_SESSION['error'])) {
+                unset($_SESSION['error']);
+            } else if (isset($_SESSION['success'])) {
+                unset($_SESSION['success']);
+            }
+        ?>
+
         <footer class="footer text-center">
             <span class="text-muted">Copyright &copy 2018-2019, by GoStars</span>
         </footer>
