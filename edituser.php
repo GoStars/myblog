@@ -35,6 +35,8 @@
         <?php if ($_SESSION['name'] == $post['name']) : ?>
             <div class="container">
                 <h1>Profile Settings</h1>
+                <hr>
+                <h2>Change E-mail</h2>
                 <?php 
                     if (isset($_SESSION['error'])) {
                         if ($_SESSION['error'] == 'emptyemail') {
@@ -75,6 +77,8 @@
                 </form>
 
                 <hr>
+
+                <h2>Change Password</h2>
 
                 <?php 
                     if (isset($_SESSION['error'])) {
