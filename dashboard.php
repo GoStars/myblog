@@ -5,22 +5,27 @@
 
 <?php require 'inc/header.php'; ?>
     <?php
+        // Records per page
+        $perPage = 10;
+
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        } else {
+            $page = 1;
+        }
+
+        $start = ($page - 1) * $perPage;
+
         $name = $_SESSION['name'];
 
         // Create Query
-        $query = "SELECT * FROM posts WHERE author = '$name' ORDER BY updated_at DESC";
+        $query = "SELECT * FROM posts WHERE author = '$name' ORDER BY updated_at DESC LIMIT $start, $perPage";
         
         // Get Result
         $result = mysqli_query($conn, $query);
 
         // Fetch Data
         $posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-        // Free Result
-        mysqli_free_result($result);
-
-        // Close Connection
-        mysqli_close($conn);
     ?>
     <?php if (isset($_SESSION['id'])) : ?>
         <div class="container">
@@ -75,6 +80,8 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <!-- Pagination -->
+            <?php require 'inc/pagination.php'; ?>
         </div>
     <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
