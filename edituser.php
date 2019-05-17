@@ -31,7 +31,7 @@
         // Close connection (save resources)
         mysqli_close($conn);
     ?>
-     <?php if (isset($_SESSION['id'])) : ?>
+    <?php if (isset($_SESSION['id'])) : ?>
         <?php if ($_SESSION['name'] == $post['name']) : ?>
             <div class="container">
                 <h1>Profile Settings</h1>

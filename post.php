@@ -1,30 +1,32 @@
 <?php
     require_once 'conf/config.php';
     require_once 'conf/db.php';
-
-    // Get ID
-    $id = $_GET['id'];
-
-    // Create Query
-    $query = "SELECT id, title, author, body, created_at, updated_at FROM posts WHERE id = ?";
-    $stmt = mysqli_stmt_init($conn);
-
-    if (!mysqli_stmt_prepare($stmt, $query)) {
-        header('Location: errors/502.php?error=sqlerror');
-        exit();
-    } else {
-        mysqli_stmt_bind_param($stmt, 'i', $id);
-        mysqli_stmt_bind_result($stmt, $id, $title, $author, $body, $created_at, $updated_at);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $post = mysqli_fetch_array($result);
-    }
-    mysqli_stmt_close($stmt);
-    // Close connection (save resources)
-    mysqli_close($conn);
 ?>
 
 <?php require 'inc/header.php'; ?>
+    <?php
+        // Get ID
+        $id = $_GET['id'];
+
+        // Create Query
+        $query = "SELECT id, title, author, body, created_at, updated_at FROM posts WHERE id = ?";
+        $stmt = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($stmt, $query)) {
+            $_SESSION['error'] = 'sqlerror';
+            header('Location: errors/502.php');
+            exit();
+        } else {
+            mysqli_stmt_bind_param($stmt, 'i', $id);
+            mysqli_stmt_bind_result($stmt, $id, $title, $author, $body, $created_at, $updated_at);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $post = mysqli_fetch_array($result);
+        }
+        mysqli_stmt_close($stmt);
+        // Close connection (save resources)
+        mysqli_close($conn);
+    ?>
     <div class="container">
         <?php 
             if (isset($_GET['dashboard'])) {
