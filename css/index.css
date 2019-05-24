@@ -18,3 +18,7 @@ body {
     height: 50px;
     padding: 15px;
 }
+
+.image-source {
+    border-radius: 50%;
+}

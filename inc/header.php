@@ -35,7 +35,8 @@
                         </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0" method="POST" action="./php/logout.php">
-                        <p class="text-primary my-2 mr-sm-2">Hello, '.$_SESSION['name'].'!</p>
+                        <p class="text-primary my-2 mr-sm-2">Hello, 
+                        <img class="image-source" src="myblog/'.$_SESSION['avatarPath'].'"> '.$_SESSION['name'].'!</p>
                         <input class="btn btn-secondary my-2 my-sm-0" type="submit" name="logout" value="Log Out">
                         </form>';
                     } else {

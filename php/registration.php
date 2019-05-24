@@ -2,6 +2,7 @@
     require_once '../conf/config.php';
     require_once '../conf/db.php';
     require_once 'test_input.php';
+    require_once 'initial_avatar.php';
 
     session_start();
 
@@ -12,6 +13,9 @@
         $email = test_input($_POST['email']);
         $password = test_input($_POST['password']);
         $passwordRepeat = test_input($_POST['password-repeat']);
+
+        $nameFirstChar = $name[0];
+        $targetPath = createAvatarImage($nameFirstChar);
 
         // Check for empty fields
         if (empty($name) || empty($email) || empty($password) || empty($passwordRepeat)) {
@@ -58,7 +62,7 @@
                     exit();
                 } else {
                     // Insert new user into DB
-                    $query = "INSERT INTO users(name, email, password) VALUES(?, ?, ?)";
+                    $query = "INSERT INTO users(name, email, password, avatarPath) VALUES(?, ?, ?, ?)";
                     $stmt = mysqli_stmt_init($conn);
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -68,7 +72,7 @@
                     } else {
                         // Hash password
                         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
-                        mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $passwordHashed);
+                        mysqli_stmt_bind_param($stmt, 'ssss', $name, $email, $passwordHashed, $targetPath);
                         mysqli_stmt_execute($stmt);
 
                         $_SESSION['success'] = 'registration';

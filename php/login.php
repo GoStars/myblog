@@ -40,6 +40,7 @@
                         $_SESSION['id'] = $row['id'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
+                        $_SESSION['avatarPath'] = $row['avatarPath'];
 
                         $_SESSION['success'] = 'login';
                         header('Location: ../index.php');
