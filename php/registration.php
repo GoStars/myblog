@@ -14,8 +14,11 @@
         $password = test_input($_POST['password']);
         $passwordRepeat = test_input($_POST['password-repeat']);
 
+        // Create initial avatar
         $nameFirstChar = $name[0];
-        $targetPath = createAvatarImage($nameFirstChar);
+        $path = '../images/';
+        $font = '../gd-files/gd-font.gdf';
+        $targetPath = createAvatarImage($nameFirstChar, $path, $font);
 
         // Check for empty fields
         if (empty($name) || empty($email) || empty($password) || empty($passwordRepeat)) {
