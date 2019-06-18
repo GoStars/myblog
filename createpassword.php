@@ -27,11 +27,11 @@
                     </div>
                     <div class="form-group">
                     <label>Repeat Password</label>
-                    <input class="form-control" type="password" name="password-repeat">
+                    <input class="form-control" type="password" name="password_repeat">
                     </div>
                     <input type="hidden" name="selector" value="'.$selector.'">
                     <input type="hidden" name="validator" value="'.$validator.'">
-                    <input class="btn btn-primary" type="submit" name="reset-password-submit" value="Submit">
+                    <input class="btn btn-primary" type="submit" name="reset_password_submit" value="Submit">
                     </form>';
                 } else {
                     $_SESSION['error'] == 'validation';

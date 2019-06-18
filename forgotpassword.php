@@ -25,7 +25,7 @@
             <div class="form-group">
                 <input class="form-control" type="text" name="email" placeholder="Enter your e-mail address">
             </div>
-            <input class="btn btn-primary" type="submit" name="reset-request-submit" value="Submit">
+            <input class="btn btn-primary" type="submit" name="reset_password_submit" value="Submit">
         </form>
     </div>
 <?php require 'inc/footer.php'; ?>

@@ -23,25 +23,24 @@
                 header('Location: ../errors/502.php');
                 exit();
             } else {
-                mysqli_stmt_bind_param($stmt, "s", $email);
+                mysqli_stmt_bind_param($stmt, 's', $email);
                 mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
                 
                 // Check result from DB
                 if ($row = mysqli_fetch_assoc($result)) {
                     // Check if passwords match
-                    $passwordCheck = password_verify($password, $row['password']);
+                    $password_check = password_verify($password, $row['password']);
 
-                    if ($passwordCheck == false) {
+                    if ($password_check == false) {
                         $_SESSION['error'] = 'wrongpassword';
                         header('Location: ../index.php');
                         exit();
-                    } else if ($passwordCheck == true) {
+                    } else if ($password_check == true) {
                         $_SESSION['id'] = $row['id'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
-                        $_SESSION['avatarPath'] = $row['avatarPath'];
-
+                        
                         $_SESSION['success'] = 'login';
                         header('Location: ../index.php');
                         exit();

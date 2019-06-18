@@ -5,24 +5,24 @@
 
     session_start();
 
-    if (isset($_POST['reset-password-submit'])) {
+    if (isset($_POST['reset_password_submit'])) {
         $selector = $_POST['selector'];
         $validator = $_POST['validator'];
         $password = test_input($_POST['password']);
-        $passwordRepeat = test_input($_POST['password-repeat']);
-        $currentDate = date('U');
+        $password_repeat = test_input($_POST['password_repeat']);
+        $current_date = date('U');
 
-        if (empty($password) || empty($passwordRepeat)) {
+        if (empty($password) || empty($password_repeat)) {
             $_SESSION['error'] = 'pwdempty';
             header("Location: ../createpassword.php?selector=".$selector."&validator=".$validator);
             exit();
-        } else if ($password != $passwordRepeat) {
+        } else if ($password != $password_repeat) {
             $_SESSION['error'] = 'pwdcheck';
             header("Location: ../createpassword.php?selector=".$selector."&validator=".$validator);
             exit();
         }
 
-        $query = "SELECT * FROM pwdreset WHERE pwdResetSelector = ? AND pwdResetExpires >= $currentDate";
+        $query = "SELECT * FROM pwd_reset WHERE selector = ? AND expires >= $current_date";
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -40,16 +40,16 @@
                 exit();
             } else {
                 // Convert validator token into binary
-                $tokenBin = hex2bin($validator);
+                $token_bin = hex2bin($validator);
                 // Match the token inside database
-                $tokenCheck = password_verify($tokenBin, $row['pwdResetToken']);
+                $token_check = password_verify($token_bin, $row['token']);
 
-                if ($tokenCheck === false) {
+                if ($token_check === false) {
                     $_SESSION['error'] = 'submit';
                     header('Location: ../forgotpassword.php');
                     exit();
-                } else if ($tokenCheck === true) {
-                    $tokenEmail = $row['pwdResetEmail'];
+                } else if ($token_check === true) {
+                    $token_email = $row['email'];
 
                     $query = "SELECT * FROM users WHERE email = ?";
                     $stmt = mysqli_stmt_init($conn);
@@ -59,7 +59,7 @@
                         header('Location: ../errors/502.php');
                         exit();
                     } else {
-                        mysqli_stmt_bind_param($stmt, 's', $tokenEmail);
+                        mysqli_stmt_bind_param($stmt, 's', $token_email);
                         mysqli_stmt_execute($stmt);
                         $result = mysqli_stmt_get_result($stmt);
 
@@ -76,12 +76,12 @@
                                 header('Location: ../errors/502.php');
                                 exit();
                             } else {
-                                $newPwdHash = password_hash($password, PASSWORD_DEFAULT);
-                                mysqli_stmt_bind_param($stmt, 'ss', $newPwdHash, $tokenEmail);
+                                $new_pwd_hash = password_hash($password, PASSWORD_DEFAULT);
+                                mysqli_stmt_bind_param($stmt, 'ss', $new_pwd_hash, $token_email);
                                 mysqli_stmt_execute($stmt);
 
                                 // Delete existing token
-                                $query = "DELETE FROM pwdreset WHERE pwdResetEmail = ?";
+                                $query = "DELETE FROM pwd_reset WHERE email = ?";
                                 $stmt = mysqli_stmt_init($conn);
 
                                 if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -89,11 +89,11 @@
                                     header('Location: ../errors/502.php');
                                     exit();
                                 } else {
-                                    mysqli_stmt_bind_param($stmt, 's', $tokenEmail);
+                                    mysqli_stmt_bind_param($stmt, 's', $token_email);
                                     mysqli_stmt_execute($stmt);
 
                                     $_SESSION['success'] = 'passwordupdated';
-                                    header("Location: ../index.php?success=passwordupdated");
+                                    header("Location: ../index.php");
                                 }
                             }
                         }

@@ -13,7 +13,7 @@
         }
 
         // Create Query
-        $query = "SELECT id, name, email, password, avatarPath FROM users WHERE id = ?";
+        $query = "SELECT id, name, email, password FROM users WHERE id = ?";
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -22,7 +22,7 @@
             exit();
         } else {
             mysqli_stmt_bind_param($stmt, 'i', $id);
-            mysqli_stmt_bind_result($stmt, $id, $name, $email, $password, $avatarPath);
+            mysqli_stmt_bind_result($stmt, $id, $name, $email, $password);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $post = mysqli_fetch_array($result);
@@ -104,7 +104,7 @@
                     </div>
                     <div class="form-group">
                         <label>Repeat Password</label>
-                        <input class="form-control" type="password" name="password-repeat">
+                        <input class="form-control" type="password" name="password_repeat">
                     </div>
                     <div class="form-group">
                         <label>Old Password</label>
@@ -121,7 +121,6 @@
                 <!-- Change avatar -->
                 <form method="POST" action="php/changeavatar.php" enctype="multipart/form-data">
                     <input type="file" name="avatar">
-                    <input type="hidden" name="avatar_path" value="<?php echo $post['avatarPath']; ?>">
                     <input class="btn btn-primary" type="submit" name="submit" value="Submit">
                 </form>
 

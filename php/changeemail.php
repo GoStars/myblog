@@ -42,7 +42,7 @@
                 mysqli_stmt_bind_param($stmt, 's', $email);
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_store_result($stmt);
-                $resultCheck = mysqli_stmt_num_rows($stmt);
+                $result_check = mysqli_stmt_num_rows($stmt);
 
                 $query = "SELECT password FROM users WHERE id = ?";
                 $stmt = mysqli_stmt_init($conn);
@@ -58,13 +58,13 @@
                     $row = mysqli_fetch_assoc($result);
 
                     // Check if passwords match
-                    $passwordCheck = password_verify($confirm_password, $row['password']);
+                    $password_check = password_verify($confirm_password, $row['password']);
 
-                    if ($resultCheck > 0) {
+                    if ($result_check > 0) {
                         $_SESSION['error'] = 'emailtaken';
                         header('Location: ../edituser.php');
                         exit();
-                    } else if ($passwordCheck == false) {
+                    } else if ($password_check == false) {
                         $_SESSION['error'] = 'wrongconfirmpassword';
                         header('Location: ../edituser.php');
                         exit();

@@ -8,7 +8,7 @@
         // Get form data
         $update_id = $_POST['update_id'];
         $new_password = test_input($_POST['new_password']);
-        $passwordRepeat = test_input($_POST['password-repeat']);
+        $password_repeat = test_input($_POST['password_repeat']);
         $old_password = test_input($_POST['old_password']);
 
         // Store post id in session
@@ -16,12 +16,12 @@
         $_SESSION['update_id'] = $update_id;
 
         // Check for empty fields
-        if (empty($new_password) || empty($passwordRepeat) || empty($old_password)) {
+        if (empty($new_password) || empty($password_repeat) || empty($old_password)) {
             $_SESSION['error'] = 'emptypassword';
             header('Location: ../edituser.php');
             // Stop script
             exit();
-        } else if ($new_password !== $passwordRepeat) { // Compare passwords
+        } else if ($new_password !== $password_repeat) { // Compare passwords
             $_SESSION['error'] = 'passwordcheck';
             header('Location: ../edituser.php');
             exit();
@@ -40,9 +40,9 @@
                 $row = mysqli_fetch_assoc($result);
 
                 // Check if passwords match
-                $passwordCheck = password_verify($old_password, $row['password']);
+                $password_check = password_verify($old_password, $row['password']);
 
-                if ($passwordCheck == false) {
+                if ($password_check == false) {
                     $_SESSION['error'] = 'wrongoldpassword';
                     header('Location: ../edituser.php');
                     exit();
@@ -57,8 +57,8 @@
                         exit();
                     } else {
                         // Hash password
-                        $passwordHashed = password_hash($new_password, PASSWORD_DEFAULT);
-                        mysqli_stmt_bind_param($stmt, 'si', $passwordHashed, $update_id);
+                        $password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
+                        mysqli_stmt_bind_param($stmt, 'si', $password_hashed, $update_id);
                         mysqli_stmt_execute($stmt);
 
                         $_SESSION['success'] = 'passwordupdate';

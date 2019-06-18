@@ -16,10 +16,6 @@
                 } else if ($_SESSION['error'] == 'nameoremailtaken') {
                     echo '<p class="text-warning">Name or e-mail already taken!</p>';
                 }
-            } else if (isset($_SESSION['success'])) {
-                if ($_SESSION['success'] == 'registration') {
-                    echo '<p class="text-success">Registration successful!</p>';
-                }
             }
 
             $name = (isset($_GET['name'])) ? $_GET['name'] : '';
@@ -28,11 +24,11 @@
         <form method="POST" action="php/registration.php">
             <div class="form-group">
                 <label>Name</label>
-                <input class="form-control" type="text" name="name" value="<?php echo $name ?>">
+                <input class="form-control" type="text" name="name" value="<?php echo $name; ?>">
             </div>
             <div class="form-group">
                 <label>E-mail</label>
-                <input class="form-control" type="text" name="email" value="<?php echo $email ?>">
+                <input class="form-control" type="text" name="email" value="<?php echo $email; ?>">
             </div>
             <div class="form-group">
                 <label>Password</label>
@@ -40,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label>Repeat Password</label>
-                <input class="form-control" type="password" name="password-repeat">
+                <input class="form-control" type="password" name="password_repeat">
             </div>
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
         </form>

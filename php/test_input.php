@@ -6,5 +6,6 @@
         $data = stripslashes($data);
         // HTML escaped code
         $data = htmlspecialchars($data);
+        
         return $data;
     }

@@ -15,7 +15,7 @@
         <form method="POST" action="php/newpost.php">
             <div class="form-group">
                 <label>Title</label>
-                <input class="form-control" type="text" name="title" value="<?php echo $title ?>">
+                <input class="form-control" type="text" name="title" value="<?php echo $title; ?>">
             </div>
             <div class="form-group">
                 <fieldset disabled="">
@@ -25,11 +25,11 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea class="form-control" name="description"><?php echo $description ?></textarea> 
+                <textarea class="form-control" name="description"><?php echo $description; ?></textarea> 
             </div>
             <div class="form-group">
                 <label>Body</label>
-                <textarea class="form-control" name="body"><?php echo $body ?></textarea> 
+                <textarea class="form-control" name="body"><?php echo $body; ?></textarea> 
             </div>
             <input type="hidden" name="author" value="<?php echo $_SESSION['name']; ?>">
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">

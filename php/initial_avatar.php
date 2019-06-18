@@ -1,23 +1,22 @@
 <?php
-    function createAvatarImage($string, $path, $font) {
+    function create_avatar_image($string, $path, $font) {
         // Create avatar folder
         if (!is_dir($path)) {
             mkdir($path);
         }
 
-        $imageFilePath = $path.$string.'.png';
-
+        $image_file_path = $path.$string.'.png';
         // Base avatar image used to center text string on top of it
         $avatar = imagecreatetruecolor(60, 60);
-        $bgColor = imagecolorallocate($avatar, 211, 211, 211);
-        imagefill($avatar, 0, 0, $bgColor);
-        $avatarTextColor = imagecolorallocate($avatar, 0, 0, 0);
+        $bg_color = imagecolorallocate($avatar, 211, 211, 211);
+        imagefill($avatar, 0, 0, $bg_color);
+        $avatar_text_color = imagecolorallocate($avatar, 0, 0, 0);
         // Load the gd font
-        $fontFilePath = imageloadfont($font);
-        imagestring($avatar, $fontFilePath, 10, 10, $string, $avatarTextColor);
-        imagepng($avatar, $imageFilePath);
+        $font_file_path = imageloadfont($font);
+        imagestring($avatar, $font_file_path, 10, 10, $string, $avatar_text_color);
+        imagepng($avatar, $image_file_path);
         imagedestroy($avatar);
 
-        return $imageFilePath;
+        return $image_file_path;
     }
     
