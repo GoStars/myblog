@@ -15,8 +15,7 @@
             if ($avatar_err == 0) {
                 if ($avatar_size < 10000) {
                     $new_avatar_name = uniqid('', true).'.'.$avatar_actual_ext;
-                    $avatar_dir_name = dirname($_POST['avatar_path']);
-                    $avatar_dest = $avatar_dir_name.'/'.$new_avatar_name;
+                    $avatar_dest = '../images/'.$new_avatar_name;
 
                     move_uploaded_file($avatar_tmp_name, $avatar_dest);
                     header('Location: ../index.php?avatarupdate');

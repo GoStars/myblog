@@ -8,8 +8,8 @@
     // Check for submit
     if (isset($_POST['submit'])) {
         // Get form data
+        $user_id = $_SESSION['id'];
         $title = test_input($_POST['title']);
-        $author = $_POST['author'];
         $description = test_input($_POST['description']);
         $body = test_input($_POST['body']);
 
@@ -21,7 +21,7 @@
             // Stop script
             exit();
         } else {
-            $query = "INSERT INTO posts(title, author, description, body) VALUES(?, ?, ?, ?)";
+            $query = "INSERT INTO posts(user_id, title, description, body) VALUES(?, ?, ?, ?)";
             $stmt = mysqli_stmt_init($conn);
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -29,7 +29,7 @@
                 header('Location: ../errors/502.php');
                 exit();
             } else {
-                mysqli_stmt_bind_param($stmt, 'ssss', $title, $author, $description, $body);
+                mysqli_stmt_bind_param($stmt, 'isss', $user_id, $title, $description, $body);
                 mysqli_stmt_execute($stmt);
 
                 $_SESSION['success'] = 'addpost';

@@ -9,7 +9,10 @@
         $id = $_GET['id'];
 
         // Create Query
-        $query = "SELECT id, title, author, body, created_at, updated_at FROM posts WHERE id = ?";
+        $query = "SELECT p.id, p.title, p.body, p.created_at, p.updated_at, u.name 
+            FROM posts AS p 
+            INNER JOIN users AS u ON p.user_id = u.id 
+            WHERE p.id = ?";
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -18,7 +21,7 @@
             exit();
         } else {
             mysqli_stmt_bind_param($stmt, 'i', $id);
-            mysqli_stmt_bind_result($stmt, $id, $title, $author, $body, $created_at, $updated_at);
+            mysqli_stmt_bind_result($stmt, $id, $title, $body, $created_at, $updated_at, $name);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $post = mysqli_fetch_array($result);
@@ -39,10 +42,10 @@
         <small>
             <?php 
                 if ($post['created_at'] >= $post['updated_at']) {
-                    echo 'Created at '.$post['created_at'].' by '.$post['author'];
+                    echo 'Created at '.$post['created_at'].' by '.$post['name'];
                 } else {
-                    echo 'Created at '.$post['created_at'].' by '.$post['author'];
-                    echo '<br>Updated at '.$post['updated_at'].' by '.$post['author'];
+                    echo 'Created at '.$post['created_at'].' by '.$post['name'];
+                    echo '<br>Updated at '.$post['updated_at'].' by '.$post['name'];
                 }
             ?>
         </small>
@@ -50,7 +53,7 @@
         <p><?php echo $post['body']; ?></p>
         <hr>
         <!-- Check if user is author of a post -->
-        <?php if (isset($_SESSION['id']) && $_SESSION['name'] == $post['author']) : ?>
+        <?php if (isset($_SESSION['id']) && $_SESSION['name'] == $post['name']) : ?>
             <form class="float-right" method="POST" action="php/removepost.php">
                 <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
                 <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">

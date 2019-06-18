@@ -19,7 +19,11 @@
         $name = $_SESSION['name'];
 
         // Create Query
-        $query = "SELECT * FROM posts WHERE author = '$name' ORDER BY updated_at DESC LIMIT $start, $perPage";
+        $query = "SELECT p.*, u.name 
+            FROM posts AS p 
+            INNER JOIN users AS u ON p.user_id = u.id
+            WHERE u.name = '$name'
+            ORDER BY p.updated_at DESC LIMIT $start, $perPage";
         
         // Get Result
         $result = mysqli_query($conn, $query);

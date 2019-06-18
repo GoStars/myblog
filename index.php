@@ -14,7 +14,10 @@
     $start = ($page - 1) * $perPage;
 
     // Create Query
-    $query = "SELECT * FROM posts ORDER BY updated_at DESC LIMIT $start, $perPage";
+    $query = "SELECT p.*, u.name 
+        FROM posts as p 
+        INNER JOIN users AS u ON p.user_id = u.id 
+        ORDER BY p.updated_at DESC LIMIT $start, $perPage";
 
     // Get Result
     $result = mysqli_query($conn, $query);
@@ -34,9 +37,9 @@
                     <?php 
                         // Display created or updated post date
                         if ($post['created_at'] >= $post['updated_at']) {
-                            echo 'Created at '.$post['created_at'].' by '.$post['author'];
+                            echo 'Created at '.$post['created_at'].' by '.$post['name'];
                         } else {
-                            echo 'Updated at '.$post['updated_at'].' by '.$post['author'];
+                            echo 'Updated at '.$post['updated_at'].' by '.$post['name'];
                         }
                     ?>
                 </small>
