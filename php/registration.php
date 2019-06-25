@@ -2,6 +2,7 @@
     require_once '../conf/config.php';
     require_once '../conf/db.php';
     require_once 'test_input.php';
+    require_once 'initial_avatar.php';
 
     session_start();
 
@@ -12,6 +13,12 @@
         $email = test_input($_POST['email']);
         $password = test_input($_POST['password']);
         $password_repeat = test_input($_POST['password_repeat']);
+
+        // Generate initial avatar
+        $name_first_char = $name[0];
+        $path = '../images/';
+        $font = '../gd-files/gd-font.gdf';
+        $target_path = create_avatar_image($name_first_char, $path, $font);
         
         // Check for empty fields
         if (empty($name) || empty($email) || empty($password) || empty($password_repeat)) {
@@ -58,7 +65,7 @@
                     exit();
                 } else {
                     // Insert new user into DB
-                    $query = "INSERT INTO users(name, email, password) VALUES(?, ?, ?)";
+                    $query = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
                     $stmt = mysqli_stmt_init($conn);
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
@@ -71,9 +78,36 @@
                         mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $password_hashed);
                         mysqli_stmt_execute($stmt);
 
-                        $_SESSION['success'] = 'registration';
-                        header('Location: ../index.php');
-                        exit();
+                        // Get new user id
+                        $query = "SELECT id FROM users WHERE name = ?";
+                        $stmt = mysqli_stmt_init($conn);
+
+                        if (!mysqli_stmt_prepare($stmt, $query)) {
+                            $_SESSION['error'] = 'sqlerror';
+                            header('Location: ../errors/502.php');
+                            exit();
+                        } else {
+                            mysqli_stmt_bind_param($stmt, 's', $name);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+                            $row = mysqli_fetch_assoc($result);
+
+                            $query = "INSERT INTO avatars(user_id, avatar_path) VALUES (?, ?)";
+                            $stmt = mysqli_stmt_init($conn);
+
+                            if (!mysqli_stmt_prepare($stmt, $query)) {
+                                $_SESSION['error'] = 'sqlerror';
+                                header('Location: ../errors/502.php');
+                                exit();
+                            } else {
+                                mysqli_stmt_bind_param($stmt, 'is', $row['id'], $target_path);
+                                mysqli_stmt_execute($stmt);
+
+                                $_SESSION['success'] = 'registration';
+                                header('Location: ../index.php');
+                                exit();
+                            }
+                        }
                     }
                 }
             }
