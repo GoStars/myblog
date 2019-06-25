@@ -35,7 +35,11 @@
         <div class="container">
             <h1>Dashboard</h1>
             <?php
-                if (isset($_SESSION['success'])) {
+                if (isset($_SESSION['error'])) {
+                    if ($_SESSION['error'] == 'postnotfound') {
+                        echo '<p class="text-warning">Post not found!</p>';
+                    }
+                } else if (isset($_SESSION['success'])) {
                     if ($_SESSION['success'] == 'addpost') {
                         echo '<p class="text-success">Post added successfully!</p>';
                     } else if ($_SESSION['success'] == 'editpost') {

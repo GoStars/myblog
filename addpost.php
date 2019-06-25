@@ -31,7 +31,6 @@
                 <label>Body</label>
                 <textarea class="form-control" name="body"><?php echo $body; ?></textarea> 
             </div>
-            <input type="hidden" name="author" value="<?php echo $_SESSION['name']; ?>">
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
         </form>
     </div>

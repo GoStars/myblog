@@ -30,6 +30,8 @@
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
+
+        unset($_SESSION['update_id']);
     ?>
     <?php if (isset($_SESSION['id'])) : ?>
         <?php if ($_SESSION['name'] == $post['name']) : ?>

@@ -33,6 +33,8 @@
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
+
+        unset($_SESSION['update_id']);
     ?>
     <!-- Check if user has rights to editing post -->
     <?php if (isset($_SESSION['id'])) : ?>
