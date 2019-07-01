@@ -81,7 +81,6 @@
                 <hr>
 
                 <h2>Change Password</h2>
-
                 <?php 
                     if (isset($_SESSION['error'])) {
                         if ($_SESSION['error'] == 'emptypassword') {
@@ -97,7 +96,6 @@
                         } 
                     }
                 ?>
-
                 <!-- Change password -->
                 <form method="POST" action="php/changepassword.php">
                     <div class="form-group">
@@ -119,13 +117,45 @@
                 <hr>
 
                 <h2>Change Avatar Image</h2>
-
-                <!-- Change avatar -->
-                <form method="POST" action="php/changeavatar.php" enctype="multipart/form-data">
-                    <input type="file" name="avatar">
-                    <input class="btn btn-primary" type="submit" name="submit" value="Submit">
-                </form>
-
+                <?php 
+                    if (isset($_SESSION['error'])) {
+                        if ($_SESSION['error'] == 'filetoobig') {
+                            echo '<p class="text-warning">File is too big!</p>';
+                        } else if ($_SESSION['error'] == 'avatarerror') {
+                            echo '<p class="text-warning">There was an error with code: '.$_SESSION['error_code'].'!</p>';
+                        } else if ($_SESSION['error'] == 'wrongfiletype') {
+                            echo '<p class="text-warning">Wrong file type!</p>';
+                        } else if ($_SESSION['error'] == 'deletefile') {
+                            echo '<p class="text-warning">Can\'t delete file!</p>';
+                        } else if ($_SESSION['error'] == 'defaultavatar') {
+                            echo '<p class="text-warning">Can\'t delete default avatar!</p>';
+                        }
+                    } else if (isset($_SESSION['success'])) {
+                        if ($_SESSION['success'] == 'avatarupdate') {
+                            echo '<p class="text-success">Avatar updated successfully!</p>';
+                        } else if ($_SESSION['success'] == 'deleteavatar') {
+                             echo '<p class="text-success">Avatar deleted successfully!</p>';
+                        }
+                    }
+                ?>
+                <div class="row">
+                    <!-- Change avatar -->
+                    <div class="col-md-auto">
+                        <form method="POST" action="php/changeavatar.php" enctype="multipart/form-data">
+                            <input type="file" name="avatar">
+                            <input type="hidden" name="update_id" value="<?php echo $post['id']; ?>">
+                            <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+                        </form>
+                    </div>
+                    <!-- Delete avatar -->
+                    <div class="col-md-auto">
+                        <form method="POST" action="php/removeavatar.php">
+                            <input type="hidden" name="update_id" value="<?php echo $post['id']; ?>">
+                            <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete your avatar?')">
+                        </form>
+                    </div>
+                </div>
+                
                 <hr>
 
                 <h2>Deactivate Account</h2>

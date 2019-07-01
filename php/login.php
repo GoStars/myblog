@@ -15,7 +15,7 @@
             header('Location: ../index.php');
             exit();
         } else {
-            $query = "SELECT u.*, a.avatar_path FROM users as u 
+            $query = "SELECT u.*, a.avatar_path, a.avatar_status FROM users as u 
                 INNER JOIN avatars as a ON a.user_id = u.id 
                 WHERE u.email = ?";
             $stmt = mysqli_stmt_init($conn);
@@ -43,6 +43,7 @@
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
                         $_SESSION['avatar_path'] = $row['avatar_path'];
+                        $_SESSION['avatar_status'] = $row['avatar_status'];
                         
                         $_SESSION['success'] = 'login';
                         header('Location: ../index.php');

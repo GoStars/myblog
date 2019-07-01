@@ -1,11 +1,11 @@
 <?php
-    function create_avatar_image($string, $path, $font) {
+    function create_avatar_image($string, $path, $font, $user_id) {
         // Create avatar folder
         if (!is_dir($path)) {
             mkdir($path);
         }
 
-        $image_file_path = $path.$string.'.png';
+        $image_file_path = $path.'profile'.$user_id.'.png';
         // Base avatar image used to center text string on top of it
         $avatar = imagecreatetruecolor(60, 60);
         $bg_color = imagecolorallocate($avatar, 211, 211, 211);

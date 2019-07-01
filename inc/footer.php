@@ -3,6 +3,8 @@
                 unset($_SESSION['error']);
             } else if (isset($_SESSION['success'])) {
                 unset($_SESSION['success']);
+            } else if (isset($_SESSION['error_code'])) {
+                unset($_SESSION['error_code']);
             }
         ?>
 

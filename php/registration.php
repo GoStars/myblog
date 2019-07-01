@@ -13,12 +13,6 @@
         $email = test_input($_POST['email']);
         $password = test_input($_POST['password']);
         $password_repeat = test_input($_POST['password_repeat']);
-
-        // Generate initial avatar
-        $name_first_char = $name[0];
-        $path = '../images/';
-        $font = '../gd-files/gd-font.gdf';
-        $target_path = create_avatar_image($name_first_char, $path, $font);
         
         // Check for empty fields
         if (empty($name) || empty($email) || empty($password) || empty($password_repeat)) {
@@ -92,6 +86,14 @@
                             $result = mysqli_stmt_get_result($stmt);
                             $row = mysqli_fetch_assoc($result);
 
+                            $user_id = $row['id'];
+                            
+                            // Generate initial avatar
+                            $name_first_char = $name[0];
+                            $path = '../images/';
+                            $font = '../gd-files/gd-font.gdf';
+                            $target_path = create_avatar_image($name_first_char, $path, $font, $user_id);
+
                             $query = "INSERT INTO avatars(user_id, avatar_path) VALUES (?, ?)";
                             $stmt = mysqli_stmt_init($conn);
 
@@ -100,7 +102,7 @@
                                 header('Location: ../errors/502.php');
                                 exit();
                             } else {
-                                mysqli_stmt_bind_param($stmt, 'is', $row['id'], $target_path);
+                                mysqli_stmt_bind_param($stmt, 'is', $user_id, $target_path);
                                 mysqli_stmt_execute($stmt);
 
                                 $_SESSION['success'] = 'registration';
