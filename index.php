@@ -14,9 +14,10 @@
     $start = ($page - 1) * $perPage;
 
     // Create Query
-    $query = "SELECT p.*, u.name 
+    $query = "SELECT p.*, u.name, a.avatar_path 
         FROM posts as p 
         INNER JOIN users AS u ON p.user_id = u.id 
+        INNER JOIN avatars AS a ON a.user_id = u.id
         ORDER BY p.updated_at DESC LIMIT $start, $perPage";
 
     // Get Result
@@ -35,11 +36,12 @@
                 <h3><?php echo $post['title']; ?></h3>
                 <small>
                     <?php 
+                        $user_avatar = '<img class="small-image-source" src="myblog/'.$post['avatar_path'].'"> ';
                         // Display created or updated post date
                         if ($post['created_at'] >= $post['updated_at']) {
-                            echo 'Created at '.$post['created_at'].' by '.$post['name'];
+                            echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
                         } else {
-                            echo 'Updated at '.$post['updated_at'].' by '.$post['name'];
+                            echo 'Updated at '.$post['updated_at'].' by '.$user_avatar.$post['name'];
                         }
                     ?>
                 </small>

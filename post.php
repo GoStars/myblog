@@ -9,9 +9,10 @@
         $id = $_GET['id'];
 
         // Create Query
-        $query = "SELECT p.id, p.title, p.body, p.created_at, p.updated_at, u.name 
+        $query = "SELECT p.id, p.title, p.body, p.created_at, p.updated_at, u.name, a.avatar_path 
             FROM posts AS p 
             INNER JOIN users AS u ON p.user_id = u.id 
+            INNER JOIN avatars AS a ON a.user_id = u.id
             WHERE p.id = ?";
         $stmt = mysqli_stmt_init($conn);
 
@@ -21,7 +22,7 @@
             exit();
         } else {
             mysqli_stmt_bind_param($stmt, 'i', $id);
-            mysqli_stmt_bind_result($stmt, $id, $title, $body, $created_at, $updated_at, $name);
+            mysqli_stmt_bind_result($stmt, $id, $title, $body, $created_at, $updated_at, $name, $avatar_path);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $post = mysqli_fetch_array($result);
@@ -40,12 +41,13 @@
         ?>
         <h1><?php echo $post['title']; ?></h1>
         <small>
-            <?php 
+            <?php
+                $user_avatar = '<img class="small-image-source" src="myblog/'.$post['avatar_path'].'"> ';
                 if ($post['created_at'] >= $post['updated_at']) {
-                    echo 'Created at '.$post['created_at'].' by '.$post['name'];
+                    echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
                 } else {
-                    echo 'Created at '.$post['created_at'].' by '.$post['name'];
-                    echo '<br>Updated at '.$post['updated_at'].' by '.$post['name'];
+                    echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
+                    echo '<br>Updated at '.$post['updated_at'].' by '.$user_avatar.$post['name'];
                 }
             ?>
         </small>

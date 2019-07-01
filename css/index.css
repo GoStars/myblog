@@ -24,3 +24,9 @@ body {
     height: 60px;
     width: 60px;
 }
+
+.small-image-source {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
