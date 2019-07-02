@@ -39,9 +39,17 @@
                         header('Location: ../index.php');
                         exit();
                     } else if ($password_check == true) {
+                        $user_status = $row['user_status'];
                         $_SESSION['id'] = $row['id'];
+
+                        if ($user_status != 1) {
+                            header('Location: ../activateuser.php');
+                            exit();
+                        }
+                        
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
+                        $_SESSION['user_status'] =  $user_status;
                         $_SESSION['avatar_path'] = $row['avatar_path'];
                         $_SESSION['avatar_status'] = $row['avatar_status'];
                         

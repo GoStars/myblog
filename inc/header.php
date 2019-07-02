@@ -19,7 +19,7 @@
 
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <?php
-                    if (isset($_SESSION['id'])) {
+                    if (isset($_SESSION['id']) && isset($_SESSION['user_status'])) {
                         echo '<ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
@@ -93,6 +93,10 @@
                         echo '<p class="text-success">Password updated successfully!</p>';
                     } else if ($_SESSION['success'] == 'registration') {
                         echo '<p class="text-success">Registration successful!</p>';
+                    } else if ($_SESSION['success'] == 'deactivateaccount') {
+                        echo '<p class="text-success">Account successfully deactivated!</p>';
+                    } else if ($_SESSION['success'] == 'activateaccount') {
+                        echo '<p class="text-success">Account successfully activated!</p>';
                     }
                 }
             ?>

@@ -158,7 +158,30 @@
                 
                 <hr>
 
-                <h2>Deactivate Account</h2>
+                <div class="card border-danger">
+                    <div class="card-header">Deactivate Account</div>
+                    <div class="card-body">
+                        <?php 
+                            if (isset($_SESSION['error'])) {
+                                if ($_SESSION['error'] == 'deactivateemptyconfirmpassword') {
+                                    echo '<p class="text-warning">Password is required!</p>';
+                                } else if ($_SESSION['error'] == 'deactivatewrongconfirmpassword') {
+                                    echo '<p class="text-warning">Wrong confirm password!</p>';
+                                }
+                            }
+                        ?>
+                        <!-- Deactivate Account -->
+                        <form method="POST" action="php/deactivateaccount.php">
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input class="form-control" type="password" name="confirm_password">
+                            </div>
+                            <input type="hidden" name="update_id" value="<?php echo $post['id']; ?>">
+                            <input class="btn btn-danger" type="submit" name="deactivate" value="Deactivate" onclick="return confirm('Are you sure that you want to deactivate your account?')">
+                        </form>
+                    </div>
+                </div>
+                <hr>
             </div>
         <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
         <?php endif; ?>
