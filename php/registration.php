@@ -90,8 +90,8 @@
                             
                             // Generate initial avatar
                             $name_first_char = $name[0];
-                            $path = '../images/';
-                            $font = '../gd-files/gd-font.gdf';
+                            $path = AVATAR_PATH;
+                            $font = FONT_PATH;
                             $target_path = create_avatar_image($name_first_char, $path, $font, $user_id);
 
                             $query = "INSERT INTO avatars(user_id, avatar_path) VALUES (?, ?)";
