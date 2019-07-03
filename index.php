@@ -30,26 +30,35 @@
 <?php require 'inc/header.php'; ?>
     <div class="container">
         <h1>Posts</h1>
-        <!-- Display all posts -->
-        <?php foreach ($posts as $post) : ?>
-            <div class="card card-body bg-light">
-                <h3><?php echo $post['title']; ?></h3>
-                <small>
-                    <?php 
-                        $user_avatar = '<img class="small-image-source" src="myblog/'.$post['avatar_path'].'"> ';
-                        // Display created or updated post date
-                        if ($post['created_at'] >= $post['updated_at']) {
-                            echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
-                        } else {
-                            echo 'Updated at '.$post['updated_at'].' by '.$user_avatar.$post['name'];
-                        }
-                    ?>
-                </small>
-                <p><?php echo $post['description']; ?></p>
-                <a class="btn" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
+        <?php if (mysqli_num_rows($result) > 0): ?>
+            <!-- Display all posts -->
+            <?php foreach ($posts as $post) : ?>
+                <div class="card card-body bg-light">
+                    <h3><?php echo $post['title']; ?></h3>
+                    <small>
+                        <?php 
+                            $user_avatar = '<img class="small-image-source" src="myblog/'.$post['avatar_path'].'"> ';
+                            // Display created or updated post date
+                            if ($post['created_at'] >= $post['updated_at']) {
+                                echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
+                            } else {
+                                echo 'Updated at '.$post['updated_at'].' by '.$user_avatar.$post['name'];
+                            }
+                        ?>
+                    </small>
+                    <p><?php echo $post['description']; ?></p>
+                    <a class="btn" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
+                </div>
+            <?php endforeach; ?>
+            <!-- Pagination -->
+            <?php require 'inc/pagination.php'; ?>
+        <?php else : ?>
+            <div class="card border-primary">
+                <div class="card-header">Posts not found</div>
+                <div class="card-body">
+                    <p class="card-text">There are no posts in database!</p>
+                </div>
             </div>
-        <?php endforeach; ?>
-        <!-- Pagination -->
-        <?php require 'inc/pagination.php'; ?>
+        <?php endif; ?>
     </div>
 <?php require 'inc/footer.php'; ?>

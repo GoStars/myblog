@@ -49,47 +49,56 @@
                     } 
                 }
             ?>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Description</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Display all posts -->
-                    <?php foreach($posts as $post) : ?>
+            <?php if (mysqli_num_rows($result) > 0): ?>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <th scope="row"><?php echo $post['title']; ?></th>
-                            <td><?php 
-                                    // Display created or updated post date
-                                    if ($post['created_at'] >= $post['updated_at']) {
-                                        echo 'Created at '.$post['created_at'];
-                                    } else {
-                                        echo 'Updated at '.$post['updated_at'];
-                                    }
-                                ?>   
-                            </td>
-                            <td><?php echo $post['description']; ?></td>
-                            <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>post.php?dashboard&id=<?php echo $post['id']; ?>">More</a></td>
-                            <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $post['id']; ?>">Edit</a>
-                            </td>
-                            <td>
-                                <form class="float-right" method="POST" action="php/removepost.php">
-                                    <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
-                                    <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">
-                                </form>
-                            </td>
+                            <th scope="col">Title</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Description</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <!-- Pagination -->
-            <?php require 'inc/pagination.php'; ?>
+                    </thead>
+                    <tbody>
+                        <!-- Display all posts -->
+                        <?php foreach($posts as $post) : ?>
+                            <tr>
+                                <th scope="row"><?php echo $post['title']; ?></th>
+                                <td><?php 
+                                        // Display created or updated post date
+                                        if ($post['created_at'] >= $post['updated_at']) {
+                                            echo 'Created at '.$post['created_at'];
+                                        } else {
+                                            echo 'Updated at '.$post['updated_at'];
+                                        }
+                                    ?>   
+                                </td>
+                                <td><?php echo $post['description']; ?></td>
+                                <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>post.php?dashboard&id=<?php echo $post['id']; ?>">More</a></td>
+                                <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $post['id']; ?>">Edit</a>
+                                </td>
+                                <td>
+                                    <form class="float-right" method="POST" action="php/removepost.php">
+                                        <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
+                                        <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <!-- Pagination -->
+                <?php require 'inc/pagination.php'; ?>
+            <?php else : ?>
+                <div class="card border-primary">
+                    <div class="card-header">Posts not found</div>
+                    <div class="card-body">
+                        <p class="card-text">You don't have any posts! Click Add Post to create one!</p>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
