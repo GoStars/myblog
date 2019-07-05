@@ -6,10 +6,10 @@
 
         session_start();
         $_SESSION['success'] = 'logout';
-        header('Location: ../index.php');
+        header('Location: ../../index.php');
         exit();
     } else {
-        header('Location: ../index.php');
+        header('Location: ../../index.php');
         exit();
     }
     

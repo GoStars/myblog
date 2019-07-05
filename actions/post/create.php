@@ -1,7 +1,7 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
-    require_once 'test_input.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
+    require_once '../../functions/test_input.php';
 
     session_start();
 
@@ -17,7 +17,7 @@
         if (empty($title) || empty($description) || empty($body)) {
             // Save correct data into fields
             $_SESSION['error'] = 'emptypostfield';
-            header('Location: ../addpost.php?title='.$title.'&description='.$description.'&body='.$body);
+            header('Location: ../../createpost.php?title='.$title.'&description='.$description.'&body='.$body);
             // Stop script
             exit();
         } else {
@@ -26,14 +26,14 @@
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
                 $_SESSION['error'] = 'sqlerror';
-                header('Location: ../errors/502.php');
+                header('Location: ../../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 'isss', $user_id, $title, $description, $body);
                 mysqli_stmt_execute($stmt);
 
                 $_SESSION['success'] = 'addpost';
-                header('Location: ../dashboard.php');
+                header('Location: ../../dashboard.php');
                 exit();
             }
         }
@@ -41,7 +41,7 @@
         // Close connection (save resources)
         mysqli_close($conn);
     } else {
-        header('Location: ../addpost.php');
+        header('Location: ../../createpost.php');
         exit();
     }
     

@@ -1,12 +1,12 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
 
     session_start();
 
     if (isset($_POST['submit'])) {
         $update_id = $_POST['update_id'];
-        $avatar_path = $_SESSION['avatar_path'];
+        $avatar_path = '../'.$_SESSION['avatar_path'];
         $avatar = $_FILES['avatar'];
         $avatar_name = $avatar['name'];
         $avatar_tmp_name = $avatar['tmp_name'];
@@ -36,7 +36,7 @@
 
                         if (!mysqli_stmt_prepare($stmt, $query)) {
                             $_SESSION['error'] = 'sqlerror';
-                            header('Location: ../errors/502.php');
+                            header('Location: ../../errors/502.php');
                             exit();
                         } else {
                             mysqli_stmt_bind_param($stmt, 'isi', $avatar_status, $avatar_dest, $update_id);
@@ -48,14 +48,14 @@
 
                             if (!mysqli_stmt_prepare($stmt, $query)) {
                                 $_SESSION['error'] = 'sqlerror';
-                                header('Location: ../errors/502.php');
+                                header('Location: ../../errors/502.php');
                                 exit();
                             } else {
                                 // Delete old avatar
                                 if (file_exists($avatar_path)) {
                                     if (!unlink($avatar_path)) {
                                         $_SESSION['error'] = 'deletefile';
-                                        header('Location: ../edituser.php');
+                                        header('Location: ../../updateuser.php');
                                         exit();
                                     }
                                 }
@@ -66,39 +66,39 @@
                                 $result = mysqli_stmt_get_result($stmt);
                                 $row = mysqli_fetch_assoc($result);
 
-                                $_SESSION['avatar_path'] = $row['avatar_path'];
+                                $_SESSION['avatar_path'] = str_replace('../../', '../', $row['avatar_path']);
                                 $_SESSION['avatar_status'] = $row['avatar_status'];
 
                                 $_SESSION['success'] = 'avatarupdate';
-                                header('Location: ../edituser.php');
+                                header('Location: ../../updateuser.php');
                                 exit();
                             }
                         }
                     } else {
                         $_SESSION['error'] = 'filetoobig';
-                        header('Location: ../edituser.php');
+                        header('Location: ../../updateuser.php');
                         exit();
                     }
                 } else {
                     $_SESSION['error'] = 'wrongfiletype';
-                    header('Location: ../edituser.php');
+                    header('Location: ../../updateuser.php');
                     exit();
                 }
             } else {
                 $_SESSION['error'] = 'avatarerror';
                 $_SESSION['error_code'] = $avatar_err;
-                header('Location: ../edituser.php');
+                header('Location: ../../updateuser.php');
                 exit();
             } 
         } else {
             $_SESSION['error'] = 'usernotfound';
-            header('Location: ../index.php');
+            header('Location: ../../index.php');
             exit();
         }
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
     } else {
-        header('Location: ../index.php');
+        header('Location: ../../index.php');
         exit();
     }

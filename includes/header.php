@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php session_start(); var_dump($_SESSION); ?>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>PHP Blog</title>
         <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/cerulean/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="public/css/index.css">
     </head>
     <body>
         <!-- Navigation -->
@@ -25,16 +25,16 @@
                         <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="addpost.php">Add Post</a>
+                        <a class="nav-link" href="createpost.php">Add Post</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="edituser.php?id='.$_SESSION['id'].'">Profile Settings</a>
+                        <a class="nav-link" href="updateuser.php?id='.$_SESSION['id'].'">Profile Settings</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">Dashboard</a>
                         </li>
                         </ul>
-                        <form class="form-inline my-2 my-lg-0" method="POST" action="./php/logout.php">
+                        <form class="form-inline my-2 my-lg-0" method="POST" action="./actions/auth/logout.php">
                         <p class="text-primary my-2 mr-sm-2">Hello, 
                         <img class="image-source" src="myblog/'.$_SESSION['avatar_path'].'"> '.$_SESSION['name'].'!</p>
                         <input class="btn btn-secondary my-2 my-sm-0" type="submit" name="logout" value="Log Out">
@@ -45,20 +45,20 @@
                         <a class="nav-link" href="index.php">Home</a>
                         </li>
                         </ul>
-                        <form method="POST" action="./php/login.php">
+                        <form method="POST" action="./actions/auth/login.php">
                         <div class="form-row">
                         <div class="from-group col-md-4">
                         <input class="form-control" type="email" name="email" placeholder="E-mail">
                         </div>
                         <div class="from-group col-md-4">
                         <input class="form-control" type="password" name="password" placeholder="Password">
-                        <a class="nav-link" href="forgotpassword.php">Forgot your password?</a>
+                        <a class="nav-link" href="resetpwd.php">Forgot your password?</a>
                         </div>
                         <div class="from-group col-md-2">
                         <input class="btn btn-secondary" type="submit" name="login" value="Log In">
                         </div>
                         <div class="from-group col-md-2">
-                        <a class="nav-link" href="adduser.php">Registration</a>
+                        <a class="nav-link" href="createuser.php">Registration</a>
                         </div> 
                         </div> 
                         </form>';

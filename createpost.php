@@ -1,4 +1,4 @@
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <div class="container">
         <h1>Add Post</h1>
         <?php 
@@ -12,7 +12,7 @@
             $description = (isset($_GET['description'])) ? $_GET['description'] : '';
             $body = (isset($_GET['body'])) ? $_GET['body'] : '';
         ?>
-        <form method="POST" action="php/newpost.php">
+        <form method="POST" action="actions/post/create.php">
             <div class="form-group">
                 <label>Title</label>
                 <input class="form-control" type="text" name="title" value="<?php echo $title; ?>">
@@ -34,4 +34,4 @@
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
         </form>
     </div>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

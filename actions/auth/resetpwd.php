@@ -1,7 +1,7 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
-    require_once 'test_input.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
+    require_once '../../functions/test_input.php';
 
     session_start();
 
@@ -14,11 +14,11 @@
 
         if (empty($password) || empty($password_repeat)) {
             $_SESSION['error'] = 'pwdempty';
-            header("Location: ../createpassword.php?selector=".$selector."&validator=".$validator);
+            header("Location: ../../newpwd.php?selector=".$selector."&validator=".$validator);
             exit();
         } else if ($password != $password_repeat) {
             $_SESSION['error'] = 'pwdcheck';
-            header("Location: ../createpassword.php?selector=".$selector."&validator=".$validator);
+            header("Location: ../../newpwd.php?selector=".$selector."&validator=".$validator);
             exit();
         }
 
@@ -27,7 +27,7 @@
 
         if (!mysqli_stmt_prepare($stmt, $query)) {
             $_SESSION['error'] = 'sqlerror';
-            header('Location: ../errors/502.php');
+            header('Location: ../../errors/502.php');
             exit();
         } else {
             mysqli_stmt_bind_param($stmt, 's', $selector);
@@ -36,7 +36,7 @@
             
             if (!$row = mysqli_fetch_assoc($result)) {
                 $_SESSION['error'] = 'submit';
-                header('Location: ../forgotpassword.php');
+                header('Location: ../../resetpwd.php');
                 exit();
             } else {
                 // Convert validator token into binary
@@ -46,7 +46,7 @@
 
                 if ($token_check === false) {
                     $_SESSION['error'] = 'submit';
-                    header('Location: ../forgotpassword.php');
+                    header('Location: ../../resetpwd.php');
                     exit();
                 } else if ($token_check === true) {
                     $token_email = $row['email'];
@@ -56,7 +56,7 @@
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
                         $_SESSION['error'] = 'sqlerror';
-                        header('Location: ../errors/502.php');
+                        header('Location: ../../errors/502.php');
                         exit();
                     } else {
                         mysqli_stmt_bind_param($stmt, 's', $token_email);
@@ -65,7 +65,7 @@
 
                         if (!$row = mysqli_fetch_assoc($result)) {
                             $_SESSION['error'] = 'fetch';
-                            header("Location: ../createpassword.php?selector=".$selector."&validator=".$validator);
+                            header("Location: ../../newpwd.php?selector=".$selector."&validator=".$validator);
                             exit();
                         } else {
                             $query =  "UPDATE users SET password = ? WHERE email = ?";
@@ -73,7 +73,7 @@
 
                             if (!mysqli_stmt_prepare($stmt, $query)) {
                                 $_SESSION['error'] = 'sqlerror';
-                                header('Location: ../errors/502.php');
+                                header('Location: ../../errors/502.php');
                                 exit();
                             } else {
                                 $new_pwd_hash = password_hash($password, PASSWORD_DEFAULT);
@@ -86,14 +86,14 @@
 
                                 if (!mysqli_stmt_prepare($stmt, $query)) {
                                     $_SESSION['error'] = 'sqlerror';
-                                    header('Location: ../errors/502.php');
+                                    header('Location: ../../errors/502.php');
                                     exit();
                                 } else {
                                     mysqli_stmt_bind_param($stmt, 's', $token_email);
                                     mysqli_stmt_execute($stmt);
 
                                     $_SESSION['success'] = 'passwordupdated';
-                                    header("Location: ../index.php");
+                                    header("Location: ../../index.php");
                                 }
                             }
                         }
@@ -104,5 +104,5 @@
         mysqli_stmt_close($stmt);
         mysqli_close($conn);
     } else {
-        header("Location: ../index.php");
+        header("Location: ../../index.php");
     }

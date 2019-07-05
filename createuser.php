@@ -1,4 +1,4 @@
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <div class="container">
         <h1>Registration</h1>
         <?php 
@@ -21,7 +21,7 @@
             $name = (isset($_GET['name'])) ? $_GET['name'] : '';
             $email = (isset($_GET['email'])) ? $_GET['email'] : '';
         ?>
-        <form method="POST" action="php/registration.php">
+        <form method="POST" action="actions/auth/registration.php">
             <div class="form-group">
                 <label>Name</label>
                 <input class="form-control" type="text" name="name" value="<?php echo $name; ?>">
@@ -41,4 +41,4 @@
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
         </form>
     </div>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

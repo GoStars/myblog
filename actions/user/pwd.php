@@ -1,7 +1,7 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
-    require_once 'test_input.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
+    require_once '../../functions/test_input.php';
 
     session_start();
 
@@ -21,12 +21,12 @@
             // Check for empty fields
             if (empty($new_password) || empty($password_repeat) || empty($old_password)) {
                 $_SESSION['error'] = 'emptypassword';
-                header('Location: ../edituser.php');
+                header('Location: ../../updateuser.php');
                 // Stop script
                 exit();
             } else if ($new_password !== $password_repeat) { // Compare passwords
                 $_SESSION['error'] = 'passwordcheck';
-                header('Location: ../edituser.php');
+                header('Location: ../../updateuser.php');
                 exit();
             } else {
                 $query = "SELECT password FROM users WHERE id = ?";
@@ -34,7 +34,7 @@
 
                 if (!mysqli_stmt_prepare($stmt, $query)) {
                     $_SESSION['error'] = 'sqlerror';
-                    header('Location: ../errors/502.php');
+                    header('Location: ../../errors/502.php');
                     exit();
                 } else {
                     mysqli_stmt_bind_param($stmt, "i", $update_id);
@@ -47,7 +47,7 @@
 
                     if ($password_check == false) {
                         $_SESSION['error'] = 'wrongoldpassword';
-                        header('Location: ../edituser.php');
+                        header('Location: ../../updateuser.php');
                         exit();
                     } else {
                         // Update password
@@ -56,7 +56,7 @@
 
                         if (!mysqli_stmt_prepare($stmt, $query)) {
                             $_SESSION['error'] = 'sqlerror';
-                            header('Location: ../errors/502.php');
+                            header('Location: ../../errors/502.php');
                             exit();
                         } else {
                             // Hash password
@@ -65,7 +65,7 @@
                             mysqli_stmt_execute($stmt);
 
                             $_SESSION['success'] = 'passwordupdate';
-                            header('Location: ../edituser.php');
+                            header('Location: ../../updateuser.php');
                             exit();
                         }
                     }
@@ -73,13 +73,13 @@
             }
         } else {
             $_SESSION['error'] = 'usernotfound';
-            header('Location: ../index.php');
+            header('Location: ../../index.php');
             exit();
         }
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
     } else {
-        header('Location: ../edituser.php');
+        header('Location: ../../updateuser.php');
         exit();
     }

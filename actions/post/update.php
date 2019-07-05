@@ -1,7 +1,7 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
-    require_once 'test_input.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
+    require_once '../../functions/test_input.php';
 
     session_start();
 
@@ -37,7 +37,7 @@
                 $_SESSION['update_id'] = $update_id;
 
                 $_SESSION['error'] = 'emptyeditpostfield';
-                header('Location: ../editpost.php');
+                header('Location: ../../updatepost.php');
                 // Stop script
                 exit();
             } else {
@@ -46,27 +46,27 @@
 
                 if (!mysqli_stmt_prepare($stmt, $query)) {
                     $_SESSION['error'] = 'sqlerror';
-                    header('Location: ../errors/502.php');
+                    header('Location: ../../errors/502.php');
                     exit();
                 } else {
                     mysqli_stmt_bind_param($stmt, 'sssi', $title, $description, $body, $update_id);
                     mysqli_stmt_execute($stmt);
 
                     $_SESSION['success'] = 'editpost';
-                    header('Location: ../dashboard.php');
+                    header('Location: ../../dashboard.php');
                     exit();
                 }        
             }
         } else {
             $_SESSION['error'] = 'postnotfound';
-            header('Location: ../dashboard.php');
+            header('Location: ../../dashboard.php');
             exit();
         }
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn); 
     } else {
-        header('Location: ../index.php');
+        header('Location: ../../index.php');
         exit();
     }
 

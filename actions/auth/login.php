@@ -1,6 +1,6 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
 
     // Create session
     session_start();
@@ -12,7 +12,7 @@
 
         if (empty($email) || empty($password)) {
             $_SESSION['error'] = 'emptyfields';
-            header('Location: ../index.php');
+            header('Location: ../../index.php');
             exit();
         } else {
             $query = "SELECT u.*, a.avatar_path, a.avatar_status FROM users as u 
@@ -22,7 +22,7 @@
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
                 $_SESSION['error'] = 'sqlerror';
-                header('Location: ../errors/502.php');
+                header('Location: ../../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 's', $email);
@@ -36,40 +36,40 @@
 
                     if ($password_check == false) {
                         $_SESSION['error'] = 'wrongpassword';
-                        header('Location: ../index.php');
+                        header('Location: ../../index.php');
                         exit();
                     } else if ($password_check == true) {
                         $user_status = $row['user_status'];
                         $_SESSION['id'] = $row['id'];
 
                         if ($user_status != 1) {
-                            header('Location: ../activateuser.php');
+                            header('Location: ../../activateuser.php');
                             exit();
                         }
                         
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['email'] = $row['email'];
                         $_SESSION['user_status'] =  $user_status;
-                        $_SESSION['avatar_path'] = $row['avatar_path'];
+                        $_SESSION['avatar_path'] = str_replace('../../', '../', $row['avatar_path']);
                         $_SESSION['avatar_status'] = $row['avatar_status'];
                         
                         $_SESSION['success'] = 'login';
-                        header('Location: ../index.php');
+                        header('Location: ../../index.php');
                         exit();
                     } else {
                         $_SESSION['error'] = 'wrongpassword';
-                        header('Location: ../index.php');
+                        header('Location: ../../index.php');
                         exit();
                     }
                 } else {
                     $_SESSION['error'] = 'nouser';
-                    header('Location: ../index.php');
+                    header('Location: ../../index.php');
                     exit();
                 }
             }
         }
     } else {
-        header('Location: ../index.php');
+        header('Location: ../../index.php');
         exit();
     }
     

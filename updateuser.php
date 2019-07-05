@@ -1,9 +1,9 @@
 <?php
-    require_once 'conf/config.php';
-    require_once 'conf/db.php';
+    require_once 'config/globals.php';
+    require_once 'config/db.php';
 ?>
 
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <?php
         // Get ID
         if (isset($_SESSION['update_id'])) {
@@ -59,7 +59,7 @@
                     }
                 ?>
                 <!-- Change email -->
-                <form method="POST" action="php/changeemail.php">
+                <form method="POST" action="actions/user/email.php">
                     <div class="form-group">
                         <fieldset disabled="">
                             <label class="control-label" for="disabledInput">Name</label>
@@ -97,7 +97,7 @@
                     }
                 ?>
                 <!-- Change password -->
-                <form method="POST" action="php/changepassword.php">
+                <form method="POST" action="actions/user/pwd.php">
                     <div class="form-group">
                         <label>New Password</label>
                         <input class="form-control" type="password" name="new_password">
@@ -141,7 +141,7 @@
                 <div class="row">
                     <!-- Change avatar -->
                     <div class="col-md-auto">
-                        <form method="POST" action="php/changeavatar.php" enctype="multipart/form-data">
+                        <form method="POST" action="actions/user/avatar.php" enctype="multipart/form-data">
                             <input type="file" name="avatar">
                             <input type="hidden" name="update_id" value="<?php echo $post['id']; ?>">
                             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
@@ -149,7 +149,7 @@
                     </div>
                     <!-- Delete avatar -->
                     <div class="col-md-auto">
-                        <form method="POST" action="php/removeavatar.php">
+                        <form method="POST" action="actions/user/rmavatar.php">
                             <input type="hidden" name="update_id" value="<?php echo $post['id']; ?>">
                             <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete your avatar?')">
                         </form>
@@ -171,7 +171,7 @@
                             }
                         ?>
                         <!-- Deactivate Account -->
-                        <form method="POST" action="php/deactivateaccount.php">
+                        <form method="POST" action="actions/user/deactivate.php">
                             <div class="form-group">
                                 <label>Confirm Password</label>
                                 <input class="form-control" type="password" name="confirm_password">
@@ -187,4 +187,4 @@
         <?php endif; ?>
     <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

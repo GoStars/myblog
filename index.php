@@ -1,6 +1,6 @@
 <?php
-    require_once 'conf/config.php';
-    require_once 'conf/db.php';
+    require_once 'config/globals.php';
+    require_once 'config/db.php';
 
     // Records per page
     $perPage = 5;
@@ -27,7 +27,7 @@
     $posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <div class="container">
         <h1>Posts</h1>
         <?php if (mysqli_num_rows($result) > 0): ?>
@@ -37,7 +37,9 @@
                     <h3><?php echo $post['title']; ?></h3>
                     <small>
                         <?php 
-                            $user_avatar = '<img class="small-image-source" src="myblog/'.$post['avatar_path'].'"> ';
+                            $avatar_path = str_replace('../../', '../', $post['avatar_path']);
+                            $user_avatar = '<img class="small-image-source" src="myblog/'.$avatar_path.'"> ';
+                            
                             // Display created or updated post date
                             if ($post['created_at'] >= $post['updated_at']) {
                                 echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
@@ -47,11 +49,11 @@
                         ?>
                     </small>
                     <p><?php echo $post['description']; ?></p>
-                    <a class="btn" href="<?php echo ROOT_URL; ?>post.php?id=<?php echo $post['id']; ?>">Read More</a>
+                    <a class="btn" href="<?php echo ROOT_URL; ?>showpost.php?id=<?php echo $post['id']; ?>">Read More</a>
                 </div>
             <?php endforeach; ?>
             <!-- Pagination -->
-            <?php require 'inc/pagination.php'; ?>
+            <?php require 'includes/pagination.php'; ?>
         <?php else : ?>
             <div class="card border-primary">
                 <div class="card-header">Posts not found</div>
@@ -61,4 +63,4 @@
             </div>
         <?php endif; ?>
     </div>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

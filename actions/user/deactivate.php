@@ -1,7 +1,7 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
-    require_once 'test_input.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
+    require_once '../../functions/test_input.php';
 
     session_start();
 
@@ -17,7 +17,7 @@
             
             if (empty($confirm_password)) {
                 $_SESSION['error'] = 'deactivateemptyconfirmpassword';
-                header('Location: ../edituser.php');
+                header('Location: ../../updateuser.php');
                 exit();
             } else {
                 $query = "SELECT password FROM users WHERE id = ?";
@@ -25,7 +25,7 @@
 
                 if (!mysqli_stmt_prepare($stmt, $query)) {
                     $_SESSION['error'] = 'sqlerror';
-                    header('Location: ../errors/502.php');
+                    header('Location: ../../errors/502.php');
                     exit();
                 } else {
                     mysqli_stmt_bind_param($stmt, "i", $update_id);
@@ -38,7 +38,7 @@
 
                     if ($password_check == false) {
                         $_SESSION['error'] = 'deactivatewrongconfirmpassword';
-                        header('Location: ../edituser.php');
+                        header('Location: ../../updateuser.php');
                         exit();
                     } else {
                         $query = "UPDATE users SET user_status = ? WHERE id = ?";
@@ -46,7 +46,7 @@
 
                         if (!mysqli_stmt_prepare($stmt, $query)) {
                             $_SESSION['error'] = 'sqlerror';
-                            header('Location: ../errors/502.php');
+                            header('Location: ../../errors/502.php');
                             exit();
                         } else {
                             mysqli_stmt_bind_param($stmt, 'ii', $user_status, $update_id);
@@ -57,7 +57,7 @@
 
                             session_start();
                             $_SESSION['success'] = 'deactivateaccount';
-                            header('Location: ../index.php');
+                            header('Location: ../../index.php');
                             exit();
                         }
                     }
@@ -65,13 +65,13 @@
             }
         } else {
             $_SESSION['error'] = 'usernotfound';
-            header('Location: ../index.php');
+            header('Location: ../../index.php');
             exit();
         }
         mysqli_stmt_close($stmt);
         // Close connection (save resources)
         mysqli_close($conn);
     } else {
-        header('Location: ../index.php');
+        header('Location: ../../index.php');
         exit();
     }

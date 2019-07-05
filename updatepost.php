@@ -1,9 +1,9 @@
 <?php
-    require_once 'conf/config.php';
-    require_once 'conf/db.php';  
+    require_once 'config/globals.php';
+    require_once 'config/db.php';  
 ?>
 
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <?php
         // Get ID
         if (isset($_SESSION['update_id'])) {
@@ -48,7 +48,7 @@
                         }
                     }
                 ?>
-                <form method="POST" action="php/changepost.php">
+                <form method="POST" action="actions/post/update.php">
                     <div class="form-group">
                         <label>Title</label>
                         <input class="form-control" type="text" name="title" value="<?php echo $post['title']; ?>">
@@ -75,5 +75,5 @@
         <?php endif; ?>
     <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>
 

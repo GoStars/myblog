@@ -1,6 +1,6 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
 
     session_start();
 
@@ -10,7 +10,7 @@
         // Authenticate the user
         $token = random_bytes(32);
         // Create link
-        $url = 'http://localhost/projects/myblog/createpassword.php?selector='.$selector.'&validator='.bin2hex($token);
+        $url = 'http://localhost/projects/myblog/newpwd.php?selector='.$selector.'&validator='.bin2hex($token);
         // Create token expiration date 
         $expires = date('U') + 1800;
         $user_email = $_POST['email'];
@@ -18,12 +18,12 @@
         // Check for empty field
         if (empty($user_email)) {
             $_SESSION['error'] = 'emptyemail';
-            header('Location: ../forgotpassword.php');
+            header('Location: ../../resetpwd.php');
             // Stop script
             exit();
         } else if (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) { // Check email
             $_SESSION['error'] = 'invalidemail';
-            header('Location: ../forgotpassword.php');
+            header('Location: ../../resetpwd.php');
             exit();
         } else {
             // Check if email exist
@@ -33,7 +33,7 @@
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
                 $_SESSION['error'] = 'sqlerror';
-                header('Location: ../errors/502.php');
+                header('Location: ../../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 's', $user_email);
@@ -43,7 +43,7 @@
 
                 if ($result_check == 0) {
                     $_SESSION['error'] = 'emailnotfound';
-                    header('Location: ../forgotpassword.php');
+                    header('Location: ../../resetpwd.php');
                 } else {
                     // Delete existing token
                     $query = "DELETE FROM pwd_reset WHERE email = ?";
@@ -51,7 +51,7 @@
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
                         $_SESSION['error'] = 'sqlerror';
-                        header('Location: ../errors/502.php');
+                        header('Location: ../../errors/502.php');
                         exit();
                     } else {
                         mysqli_stmt_bind_param($stmt, 's', $user_email);
@@ -63,7 +63,7 @@
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
                         $_SESSION['error'] = 'sqlerror';
-                        header('Location: ../errors/502.php');
+                        header('Location: ../../errors/502.php');
                         exit();
                     } else {
                         $hashed_token = password_hash($token, PASSWORD_DEFAULT);
@@ -88,10 +88,10 @@
                     mail($to, $subject, $message, $headers);
 
                     $_SESSION['success'] = 'reset';
-                    header("Location: ../forgotpassword.php");
+                    header("Location: ../../resetpwd.php");
                 }
             }
         }
     } else {
-        header("Location: ../forgotpassword.php");
+        header("Location: ../../resetpwd.php");
     }

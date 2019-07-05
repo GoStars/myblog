@@ -1,8 +1,8 @@
 <?php
     function create_avatar_image($string, $path, $font, $user_id) {
         // Create avatar folder
-        if (!is_dir($path)) {
-            mkdir($path);
+        if (!is_dir(str_replace('../../', '../', $path))) {
+            mkdir($path, null, true);
         }
 
         $image_file_path = $path.'profile'.$user_id.'.png';

@@ -1,4 +1,4 @@
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <div class="container">
         <h1>Create New Password</h1>
         <?php 
@@ -20,7 +20,7 @@
                 header('Location: index.php');
             } else {
                 if (ctype_xdigit($selector) !== false && ctype_xdigit($validator) !== false) {
-                    echo '<form method="POST" action="php/resetpassword.php">
+                    echo '<form method="POST" action="actions/auth/resetpwd.php">
                     <div class="form-group">
                     <label>Password</label>
                     <input class="form-control" type="password" name="password">
@@ -40,4 +40,4 @@
             }
         ?>
     </div>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

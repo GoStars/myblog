@@ -1,9 +1,9 @@
 <?php
-    require_once 'conf/config.php';
-    require_once 'conf/db.php';
+    require_once 'config/globals.php';
+    require_once 'config/db.php';
 ?>
 
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <?php
         // Get ID
         $id = $_GET['id'];
@@ -42,7 +42,9 @@
         <h1><?php echo $post['title']; ?></h1>
         <small>
             <?php
-                $user_avatar = '<img class="small-image-source" src="myblog/'.$post['avatar_path'].'"> ';
+                $avatar_path = str_replace('../../', '../', $post['avatar_path']);
+                $user_avatar = '<img class="small-image-source" src="myblog/'.$avatar_path.'"> ';
+
                 if ($post['created_at'] >= $post['updated_at']) {
                     echo 'Created at '.$post['created_at'].' by '.$user_avatar.$post['name'];
                 } else {
@@ -56,11 +58,11 @@
         <hr>
         <!-- Check if user is author of a post -->
         <?php if (isset($_SESSION['id']) && $_SESSION['name'] == $post['name']) : ?>
-            <form class="float-right" method="POST" action="php/removepost.php">
+            <form class="float-right" method="POST" action="actions/post/delete.php">
                 <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
                 <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">
             </form>
-            <a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $_GET['id']; ?>">Edit</a>
+            <a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>updatepost.php?id=<?php echo $_GET['id']; ?>">Edit</a>
         <?php endif; ?>
     </div>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

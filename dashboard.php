@@ -1,9 +1,9 @@
 <?php
-    require_once 'conf/config.php';
-    require_once 'conf/db.php';
+    require_once 'config/globals.php';
+    require_once 'config/db.php';
 ?>
 
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <?php
         // Records per page
         $perPage = 10;
@@ -76,11 +76,11 @@
                                     ?>   
                                 </td>
                                 <td><?php echo $post['description']; ?></td>
-                                <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>post.php?dashboard&id=<?php echo $post['id']; ?>">More</a></td>
-                                <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>editpost.php?id=<?php echo $post['id']; ?>">Edit</a>
+                                <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>showpost.php?dashboard&id=<?php echo $post['id']; ?>">More</a></td>
+                                <td><a class="btn btn-secondary" href="<?php echo ROOT_URL; ?>updatepost.php?id=<?php echo $post['id']; ?>">Edit</a>
                                 </td>
                                 <td>
-                                    <form class="float-right" method="POST" action="php/removepost.php">
+                                    <form class="float-right" method="POST" action="actions/post/delete.php">
                                         <input type="hidden" name="delete_id" value="<?php echo $post['id']; ?>">
                                         <input class="btn btn-danger" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure that you want to delete <?php echo $post['title']; ?>?')">
                                     </form>
@@ -90,7 +90,7 @@
                     </tbody>
                 </table>
                 <!-- Pagination -->
-                <?php require 'inc/pagination.php'; ?>
+                <?php require 'includes/pagination.php'; ?>
             <?php else : ?>
                 <div class="card border-primary">
                     <div class="card-header">Posts not found</div>
@@ -102,4 +102,4 @@
         </div>
     <?php else : $_SESSION['error'] = 'accessdenied'; header('Location: index.php'); exit(); ?>
     <?php endif; ?>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

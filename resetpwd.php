@@ -1,4 +1,4 @@
-<?php require 'inc/header.php'; ?>
+<?php require 'includes/header.php'; ?>
     <div class="container">
         <h1>Reset Password</h1>
         <?php
@@ -21,11 +21,11 @@
 
         <p>An e-mail will be send to you with instructions on how to reset your password.</p>
 
-        <form method="POST" action="php/resetrequest.php">
+        <form method="POST" action="actions/auth/resetrequest.php">
             <div class="form-group">
                 <input class="form-control" type="text" name="email" placeholder="Enter your e-mail address">
             </div>
             <input class="btn btn-primary" type="submit" name="reset_password_submit" value="Submit">
         </form>
     </div>
-<?php require 'inc/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>

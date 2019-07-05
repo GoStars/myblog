@@ -1,8 +1,8 @@
 <?php
-    require_once '../conf/config.php';
-    require_once '../conf/db.php';
-    require_once 'test_input.php';
-    require_once 'initial_avatar.php';
+    require_once '../../config/globals.php';
+    require_once '../../config/db.php';
+    require_once '../../functions/test_input.php';
+    require_once '../../functions/initial_avatar.php';
 
     session_start();
 
@@ -18,24 +18,24 @@
         if (empty($name) || empty($email) || empty($password) || empty($password_repeat)) {
             $_SESSION['error'] = 'emptyfield';
             // Save correct data into fields
-            header('Location: ../adduser.php?name='.$name.'&email='.$email);
+            header('Location: ../../createuser.php?name='.$name.'&email='.$email);
             // Stop script
             exit();
         } else if (!preg_match('/^[a-zA-Z0-9]*$/', $name) && !filter_var($email, FILTER_VALIDATE_EMAIL)) { // Check name and email
             $_SESSION['error'] = 'invalidnameandemail';
-            header('Location: ../adduser.php');
+            header('Location: ../../createuser.php');
             exit();
         } else if (!preg_match('/^[a-zA-Z0-9]*$/', $name)) { // Check name
             $_SESSION['error'] = 'invalidname';
-            header('Location: ../adduser.php?email='.$email);
+            header('Location: ../../createuser.php?email='.$email);
             exit();
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Check email
             $_SESSION['error'] = 'invalidemail';
-            header('Location: ../adduser.php?name='.$name);
+            header('Location: ../../createuser.php?name='.$name);
             exit();
         } else if ($password !== $password_repeat) { // Compare passwords
             $_SESSION['error'] = 'passwordcheck';
-            header('Location: ../adduser.php?name='.$name.'&email='.$email);
+            header('Location: ../../createuser.php?name='.$name.'&email='.$email);
             exit();
         } else {
             // Check if user already exist
@@ -45,7 +45,7 @@
 
             if (!mysqli_stmt_prepare($stmt, $query)) {
                 $_SESSION['error'] = 'sqlerror';
-                header('Location: ../errors/502.php');
+                header('Location: ../../errors/502.php');
                 exit();
             } else {
                 mysqli_stmt_bind_param($stmt, 'ss', $name, $email);
@@ -55,7 +55,7 @@
 
                 if ($result_check > 0) {
                     $_SESSION['error'] = 'nameoremailtaken';
-                    header('Location: ../adduser.php');
+                    header('Location: ../../createuser.php');
                     exit();
                 } else {
                     // Insert new user into DB
@@ -64,7 +64,7 @@
 
                     if (!mysqli_stmt_prepare($stmt, $query)) {
                         $_SESSION['error'] = 'sqlerror';
-                        header('Location: ../errors/502.php');
+                        header('Location: ../../errors/502.php');
                         exit();
                     } else {
                         // Hash password
@@ -78,7 +78,7 @@
 
                         if (!mysqli_stmt_prepare($stmt, $query)) {
                             $_SESSION['error'] = 'sqlerror';
-                            header('Location: ../errors/502.php');
+                            header('Location: ../../errors/502.php');
                             exit();
                         } else {
                             mysqli_stmt_bind_param($stmt, 's', $name);
@@ -99,14 +99,14 @@
 
                             if (!mysqli_stmt_prepare($stmt, $query)) {
                                 $_SESSION['error'] = 'sqlerror';
-                                header('Location: ../errors/502.php');
+                                header('Location: ../../errors/502.php');
                                 exit();
                             } else {
                                 mysqli_stmt_bind_param($stmt, 'is', $user_id, $target_path);
                                 mysqli_stmt_execute($stmt);
 
                                 $_SESSION['success'] = 'registration';
-                                header('Location: ../index.php');
+                                header('Location: ../../index.php');
                                 exit();
                             }
                         }
@@ -118,6 +118,6 @@
         // Close connection (save resources)
         mysqli_close($conn);
     } else {
-        header('Location: ../adduser.php');
+        header('Location: ../../createuser.php');
         exit();
     }
