@@ -1,4 +1,4 @@
-<?php session_start(); var_dump($_SESSION); ?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en-US">
