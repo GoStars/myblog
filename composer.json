@@ -1,0 +1,9 @@
+{
+    "name": "gostars/myblog",
+    "description": "Simple website and blog",
+    "type": "project",
+    "license": "Apache License 2.0",
+    "require": {
+      "php": "^7.2.11"
+    }
+}
