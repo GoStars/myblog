@@ -1,9 +1,20 @@
 <?php
     // Database
-    define('DB_HOST', '');
-    define('DB_USER', '');
-    define('DB_PASS', '');
-    define('DB_NAME', '');
+    $url = getenv('JAWSDB_URL');
+    $dbparts = parse_url($url);
+
+    if (isset($url)) {
+        define('DB_HOST', $dbparts['host']);
+        define('DB_USER', $dbparts['user']);
+        define('DB_PASS', $dbparts['pass']);
+        define('DB_NAME', ltrim($dbparts['path'], '/'));
+    } else {
+        // Local
+        define('DB_HOST', '');
+        define('DB_USER', '');
+        define('DB_PASS', '');
+        define('DB_NAME', '');
+    }
 
     // URLs
     define('ROOT_URL', '/projects/myblog/');
