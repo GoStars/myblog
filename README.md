@@ -39,5 +39,5 @@ Username and password you will get after creating mailtrap account ([Mailtrap.io
 
 ---
 
-Thats all configurations. Visit index.php, register new user, login, upload profile image, add some posts. You can check demo here: [Myblog Demo](https://myblog-242647.herokuapp.com/)
+Thats all configurations. Visit index.php, register new user, login, upload profile image, add some posts.
 
