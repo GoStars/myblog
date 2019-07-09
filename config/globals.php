@@ -1,9 +1,10 @@
 <?php
-    // Database
+    // Database connections
+    // Production
     $url = getenv('JAWSDB_URL');
     $dbparts = parse_url($url);
 
-    if (isset($url)) {
+    if (!empty($url)) {
         define('DB_HOST', $dbparts['host']);
         define('DB_USER', $dbparts['user']);
         define('DB_PASS', $dbparts['pass']);
